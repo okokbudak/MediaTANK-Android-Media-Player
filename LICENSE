@@ -1,0 +1,32 @@
+Copyright (c) 2026 Orhan Kokbudak. All rights reserved.
+
+MediaTANK is a personal project. It is not published, not distributed, and not
+offered for use by anyone else.
+
+No permission is granted to use, copy, modify, merge, publish, distribute,
+sublicense or sell this software or any part of it. No licence — express or
+implied — is granted by the presence of this source code in a public or private
+repository.
+
+If you want to use any part of this work, ask first: github.com/okokbudak
+
+---
+
+THIRD-PARTY COMPONENTS
+
+The terms above cover only the source code written for MediaTANK. They do not
+and cannot apply to the third-party libraries this application links against;
+those keep their own licences, some of which are copyleft. See
+THIRD-PARTY-NOTICES.md.
+
+Two of them matter in particular. libVLC and jcifs-ng are distributed under the
+LGPL. As long as this application is only built and installed on the author's
+own devices, the LGPL imposes no obligations, because those obligations attach
+to distribution. They would apply the moment the application — or an APK built
+from it — is handed to anyone else.
+
+CONTENT
+
+MediaTANK does not host, provide, distribute or index any media. Playlists,
+subscriptions and files are supplied by the person using the application, who
+is responsible for holding the rights to them.

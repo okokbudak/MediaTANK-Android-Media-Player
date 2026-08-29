@@ -19,6 +19,8 @@
     <string name="settings_tmdb_key">TMDB anahtarı: %1$s</string>
     <string name="settings_tmdb_key_none">TMDB anahtarı: tanımlı değil</string>
     <string name="settings_clear_metadata">Önbelleğe alınan film bilgilerini sil</string>
+    <!-- TMDB kullanım şartlarının zorunlu kıldığı bildirim; metni değiştirmeyin. -->
+    <string name="tmdb_attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
     <string name="settings_player">Oynatıcı</string>
     <string name="settings_sources">Kaynaklar ve Profil</string>
     <string name="settings_switch_profile">Profil değiştir</string>

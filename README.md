@@ -144,3 +144,19 @@ yarıçapı, odakta 1.1 ölçek, 40dp/30dp overscan güvenli alan.
   "i" harfinin büyüğü "İ" olduğu için jcifs paylaşım adını `FİTNESS` diye
   gönderiyor ve sunucu bulamıyordu; aynı tuzak `.AVI` uzantısını `.avı` yapıyordu.
 - APK imzasız (debug). Kalıcı kullanım için release imzası üretilmeli.
+
+## Lisans
+
+**Her hakkı saklıdır.** Kişisel bir proje; yayınlanmıyor, dağıtılmıyor ve
+başkasının kullanımına açılmıyor. Ayrıntı için [LICENSE](LICENSE).
+
+Bağlanılan kütüphaneler kendi lisanslarını koruyor; özellikle **libVLC** ve
+**jcifs-ng** LGPL-2.1 kapsamında. Bu yükümlülükler yalnız dağıtım durumunda
+doğar — bkz. [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+Film ve dizi bilgileri isteğe bağlı olarak TMDB'den geliyor:
+
+> This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+MediaTANK hiçbir içerik barındırmaz, sağlamaz veya dizinlemez. Playlist,
+abonelik ve dosyalar kullanıcı tarafından sağlanır.

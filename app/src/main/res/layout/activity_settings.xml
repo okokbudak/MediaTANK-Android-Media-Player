@@ -95,6 +95,15 @@
             android:layout_marginTop="8dp"
             android:text="@string/settings_clear_metadata" />
 
+        <!-- TMDB'nin kullanım şartları bu bildirimi zorunlu kılıyor. -->
+        <TextView
+            style="@style/Text.Body"
+            android:layout_width="520dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/tmdb_attribution"
+            android:textSize="@dimen/text_label_sm" />
+
         <!-- Kaynaklar -->
         <TextView
             style="@style/Text.HeadlineMd"
