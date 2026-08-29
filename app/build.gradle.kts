@@ -42,6 +42,9 @@ android {
                 storePassword = keystoreProperties.getProperty("storePassword")
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
+                // v3, ileride anahtar değiştirmeyi (key rotation) mümkün
+                // kılıyor; v1/v2 eski cihazlar için zaten açık.
+                enableV3Signing = true
             }
         }
     }
