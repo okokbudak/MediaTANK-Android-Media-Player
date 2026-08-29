@@ -8,6 +8,7 @@ build/
 local.properties
 *.jks
 *.keystore
+keystore.properties
 
 # Yerel araç kurulumu (Gradle dağıtımı ~271 MB, depoya girmemeli)
 .tools/

@@ -69,6 +69,40 @@ Emülatör için (x86 kütüphaneleriyle):
 `local.properties` dosyası depoda yok; `sdk.dir` satırını kendiniz eklemeniz
 gerekir.
 
+### Yayın sürümü
+
+```bash
+./gradlew assembleRelease
+```
+
+Yayın derlemesi R8 ile küçültülüyor (`isMinifyEnabled`, `isShrinkResources`).
+libVLC, jcifs ve Gson yansımayla çalıştığı için koruma kuralları
+`app/proguard-rules.pro` içinde; oradaki `-keep` satırlarını kaldırmak
+oynatıcıyı ve kayıtlı profilleri sessizce bozar.
+
+İmzalama bilgileri depoya girmiyor. Anahtar deposunu bir kez kendiniz
+oluşturun (parolayı yalnız siz girersiniz):
+
+```bash
+keytool -genkeypair -v -keystore mediatank.jks -alias mediatank -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Sonra proje kökünde `keystore.properties` dosyasını oluşturun — bu dosya
+`.gitignore` içinde, depoya gitmez:
+
+```properties
+storeFile=mediatank.jks
+storePassword=...
+keyAlias=mediatank
+keyPassword=...
+```
+
+Dosya yoksa derleme hata vermez; yayın APK'sı hata ayıklama anahtarıyla
+imzalanır. Böyle bir APK kurulup denenebilir ama dağıtılamaz.
+
+`.jks` dosyasını ve parolasını kaybetmeyin: Play Store'a yüklenmiş bir
+uygulamanın güncellemesi yalnız aynı anahtarla imzalanabiliyor.
+
 ### TV'ye yükleme
 
 TV'de Ayarlar → Cihaz Tercihleri → Hakkında → *Yapı* satırına 7 kez basıp
