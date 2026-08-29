@@ -54,6 +54,14 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
 
     private var engine: PlayerEngine? = null
 
+    /** Motorun bağlandığı görünüm; düzende gerçekten yer alıyor. */
+    private lateinit var engineContainer: android.widget.FrameLayout
+
+    private var currentEngineKind: Engine = Engine.VLC
+
+    /** Geri düşüşte kullanılan motor; parça değişince sıfırlanır. */
+    private var engineOverride: Engine? = null
+
     /** Kullanıcının seçtiği sıra ve karıştırılmış çalma düzeni. */
     private var tracks: List<MediaItem> = emptyList()
     private var order: List<Int> = emptyList()
@@ -88,6 +96,7 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
     }
 
     private fun bindViews() {
+        engineContainer = findViewById(R.id.engine_container)
         cover = findViewById(R.id.cover)
         trackTitle = findViewById(R.id.track_title)
         trackMeta = findViewById(R.id.track_meta)
@@ -156,15 +165,18 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
             it.release()
         }
 
-        // Ses için görüntü yüzeyi gerekmiyor; motor gizli bir kapsayıcıya bağlanıyor.
-        val container = android.widget.FrameLayout(this)
-        val kind = track.preferredEngine
-            ?: if (track.playUrl.startsWith("smb://")) Engine.VLC else Engine.EXOPLAYER
+        // Ses varsayılan olarak VLC ile çalınıyor: ExoPlayer WMA, APE, DSD,
+        // WavPack, Musepack gibi biçimleri açamıyor, VLC hepsini açıyor.
+        // Yüksek çözünürlüklü FLAC ve ALAC de bu yüzden VLC'ye gidiyor.
+        val kind = if (engineOverride != null) engineOverride!! else Engine.VLC
 
         val created = if (kind == Engine.VLC) VlcEngine(this) else ExoEngine(this)
         created.listener = this
         engine = created
-        created.prepare(container, track, 0L)
+        currentEngineKind = kind
+        // Kapsayıcı düzende gerçekten var; pencereye eklenmemiş bir görünüme
+        // bağlanınca libVLC başlamıyor.
+        created.prepare(engineContainer, track, 0L)
 
         trackTitle.text = track.title
         trackMeta.text = buildString {
@@ -179,12 +191,14 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
     }
 
     private fun jumpTo(trackIndex: Int) {
+        engineOverride = null
         orderPosition = order.indexOf(trackIndex).coerceAtLeast(0)
         playCurrent()
     }
 
     private fun skip(delta: Int) {
         if (tracks.isEmpty()) return
+        engineOverride = null
         orderPosition = (orderPosition + delta + order.size) % order.size
         playCurrent()
     }
@@ -240,9 +254,20 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
     }
 
     override fun onError(message: String, fatal: Boolean) = runOnUiThread {
-        // Bozuk tek bir dosya tüm listeyi durdurmasın; sıradakine geç.
+        if (!fatal) return@runOnUiThread
+
+        // Önce diğer motoru dene: VLC biçim kapsamında geniş ama bazı
+        // konteynerlerde ExoPlayer daha başarılı olabiliyor.
+        if (currentEngineKind == Engine.VLC && engineOverride == null) {
+            engineOverride = Engine.EXOPLAYER
+            playCurrent()
+            return@runOnUiThread
+        }
+
+        // İki motor da açamadıysa bozuk dosya listeyi durdurmasın.
         trackMeta.text = "Çalınamadı: ${currentTrack().title}"
-        if (fatal && order.size > 1) skip(1)
+        engineOverride = null
+        if (order.size > 1) skip(1)
     }
 
     override fun onTracksChanged() = Unit

@@ -1,7 +1,18 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+// İmzalama bilgileri depoya girmiyor. keystore.properties dosyası varsa yayın
+// derlemesi imzalanır, yoksa imzasız üretilir ve derleme yine de başarılı olur
+// (böylece anahtar deposu olmayan bir makinede proje derlenebiliyor).
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val hasSigningConfig = keystoreProperties.getProperty("storeFile") != null
 
 android {
     namespace = "com.orhan.iptv"
@@ -10,9 +21,9 @@ android {
     defaultConfig {
         applicationId = "com.orhan.iptv"
         minSdk = 21          // Bravia ATV3 is API 28; 21 keeps it broad
-        targetSdk = 30
+        targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         // libVLC her ABI için ~25 MB yerli kütüphane taşıyor. Varsayılan olarak
         // yalnız ARM üretiyoruz (hedef Sony Bravia ATV3); APK 98 MB yerine
@@ -24,10 +35,39 @@ android {
         }
     }
 
+    signingConfigs {
+        if (hasSigningConfig) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // R8 kullanılmayan kodu ve kaynakları atıyor. Kuralların tamamı
+            // proguard-rules.pro içinde; libVLC ve jcifs yansımayla
+            // çalıştığı için korumasız bırakılamıyor.
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Anahtar deposu yoksa hata vermek yerine hata ayıklama anahtarına
+            // düşüyoruz: küçültülmüş sürüm böylece kurulup denenebiliyor.
+            // Bu APK dağıtılamaz; mağaza hata ayıklama imzasını reddediyor.
+            signingConfig = if (hasSigningConfig) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+        }
+        debug {
+            // applicationId bilerek değiştirilmiyor: son eki eklersek cihazda
+            // kurulu sürüm ayrı bir uygulama sayılır ve kayıtlı kaynaklar,
+            // profiller, favoriler orada kalır.
+            versionNameSuffix = "-debug"
         }
     }
 
@@ -76,16 +116,12 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-rtsp:$media3")
     implementation("androidx.media3:media3-datasource:$media3")
     implementation("androidx.media3:media3-ui:$media3")
-    implementation("androidx.media3:media3-session:$media3")
 
     // libVLC - "all codecs" engine + native SMB/NFS (fallback and VOD default)
     implementation("org.videolan.android:libvlc-all:3.6.0")
 
     // Networking (M3U download + Xtream Codes API)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.google.code.gson:gson:2.11.0")
 
     // NAS gezinme. jcifs-ng SMB1 *ve* SMB2/3 konuşur; hedef NAS (Synology

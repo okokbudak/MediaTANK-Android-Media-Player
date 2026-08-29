@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      Telefonda kenar çubuğu yalnız ikon gösterir; 56dp'ye etiket sığmıyor.
-      Büyük ekranlarda (values-sw600dp) etiketler açılıyor.
+      Dar ekranda kenar çubuğu yalnız ikon gösterir; 56dp'ye etiket sığmıyor.
+      Geniş ekranlarda (values-w600dp) etiketler açılıyor.
     -->
     <bool name="sidebar_show_labels">false</bool>
 </resources>

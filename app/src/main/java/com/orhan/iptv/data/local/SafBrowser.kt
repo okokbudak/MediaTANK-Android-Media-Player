@@ -28,8 +28,13 @@ object SafBrowser {
     )
 
     private val audioExtensions = setOf(
-        "mp3", "flac", "m4a", "aac", "ogg", "oga", "opus", "wav", "wma",
-        "alac", "aiff", "aif", "ape", "dsf", "mka", "mpc", "wv"
+        // Geniş kapsam bilinçli: müzik VLC ile çalınıyor ve VLC bu
+        // biçimlerin hepsini çözüyor. ExoPlayer WMA, APE, DSD ve WavPack
+        // açamadığı için tek başına yetersiz kalıyordu.
+        "mp3", "flac", "m4a", "m4b", "aac", "ogg", "oga", "opus", "wav", "wma",
+        "alac", "aiff", "aif", "aifc", "ape", "dsf", "dff", "mka", "mpc", "wv",
+        "ac3", "eac3", "dts", "dtshd", "tta", "spx", "caf", "amr", "mp2", "ra",
+        "shn", "au", "w64", "mlp", "thd"
     )
 
     private val photoExtensions = setOf(

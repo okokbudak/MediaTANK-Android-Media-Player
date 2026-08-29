@@ -469,6 +469,14 @@ class MainActivity : AppCompatActivity() {
         return (availablePx / (cardWidthDp * density)).toInt().coerceAtLeast(1)
     }
 
+    /**
+     * Yatay bir raf ekler.
+     *
+     * Lint uyarısı bastırılıyor: kontrol, düzendeki wrap_content'i kaydırma
+     * yönü sanıyor. Raf YATAY kaydırıyor, o yöndeki ölçü match_parent;
+     * wrap_content yalnız yükseklikte ve kart boyları sabit.
+     */
+    @android.annotation.SuppressLint("InvalidSetHasFixedSize")
     private fun addRail(title: String, items: List<MediaItem>, style: CardStyle) {
         val rail = layoutInflater.inflate(R.layout.view_rail, railsContainer, false)
         rail.findViewById<TextView>(R.id.rail_title).text =

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Büyük ekranlar (tablet, televizyon). Televizyon 960dp genişliktedir ve bu
-  eşiği rahatça geçer. Varsayılan values/dimens.xml artık telefon içindir.
+  Geniş ekranlar (televizyon, tablet, yatay telefon).
+
+  Niteleyici bilinçli olarak w600dp, sw600dp değil: sw600dp ekranın EN DAR
+  kenarını ölçüyor ve 1920x1080 bir televizyonda bu 540dp ediyor — yani
+  televizyon telefon ölçülerini kullanıyordu. w600dp kullanılabilir genişliği
+  ölçtüğü için televizyonda 960dp olarak doğru sonucu veriyor.
 -->
 <!--
   Overscan güvenli alan: DESIGN.md 1920px genişlik referansında 80x60px ister.

@@ -12,6 +12,18 @@
     android:paddingTop="@dimen/safe_margin_y"
     android:paddingBottom="@dimen/safe_margin_y">
 
+    <!--
+      Oynatıcı motorunun bağlanacağı görünüm.
+
+      Sesin görüntü yüzeyine ihtiyacı yok ama libVLC, pencereye eklenmemiş bir
+      görünüme bağlanınca başlamıyor. Bu yüzden 1dp'lik görünmez bir kapsayıcı
+      düzende gerçekten yer alıyor.
+    -->
+    <FrameLayout
+        android:id="@+id/engine_container"
+        android:layout_width="1dp"
+        android:layout_height="1dp" />
+
     <!-- Sol: kapak + bilgi + kumanda -->
     <LinearLayout
         android:layout_width="0dp"

@@ -2,7 +2,7 @@
 <!--
   Telefon ölçüleri (varsayılan kova).
 
-  Televizyon ve tabletin değerleri values-sw600dp/dimens.xml içinde. Ayrım
+  Televizyon ve tabletin değerleri values-w600dp/dimens.xml içinde. Ayrım
   gerekliydi: TV için ayarlanmış 150dp'lik kenar çubuğu ve 40dp'lik overscan
   boşluğu, 360dp genişliğindeki bir telefonda ekranın yarısını yiyordu.
 -->

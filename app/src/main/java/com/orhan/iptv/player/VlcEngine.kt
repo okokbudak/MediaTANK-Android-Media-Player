@@ -75,7 +75,7 @@ class VlcEngine(private val context: Context) : PlayerEngine {
 
         mp.setEventListener { event -> handleEvent(event) }
 
-        val media = Media(vlc, Uri.parse(item.playUrl)).apply {
+        val media = openMedia(vlc, item).apply {
             // Donanım hızlandırmayı dene, çözemezse VLC yazılıma düşer.
             setHWDecoderEnabled(true, false)
             addOption(":network-caching=2000")
@@ -88,6 +88,29 @@ class VlcEngine(private val context: Context) : PlayerEngine {
 
         mp.play()
     }
+
+    /**
+     * Medyayı kaynağına göre açar.
+     *
+     * `content://` adresleri libVLC'nin doğrudan çözemediği Android'e özgü
+     * belge URI'leri; Storage Access Framework ile seçilen dosyalar böyle
+     * geliyor. Bunlar için dosya tanımlayıcı açılıp VLC'ye o veriliyor.
+     */
+    private fun openMedia(vlc: LibVLC, item: MediaItem): Media {
+        if (!item.playUrl.startsWith("content://")) {
+            return Media(vlc, Uri.parse(item.playUrl))
+        }
+
+        val descriptor = context.contentResolver
+            .openFileDescriptor(Uri.parse(item.playUrl), "r")
+            ?: throw java.io.IOException("Dosya açılamadı: ${item.title}")
+
+        // VLC tanımlayıcıyı kendisi kapatmıyor; medya bırakılırken kapatılmalı.
+        openDescriptor = descriptor
+        return Media(vlc, descriptor.fileDescriptor)
+    }
+
+    private var openDescriptor: android.os.ParcelFileDescriptor? = null
 
     private fun handleEvent(event: MediaPlayer.Event) {
         val mp = player ?: return
@@ -195,6 +218,11 @@ class VlcEngine(private val context: Context) : PlayerEngine {
             .onFailure { Log.w(TAG, "LibVLC release", it) }
         libVlc = null
         videoLayout = null
+
+        // content:// için açılan tanımlayıcıyı biz kapatıyoruz; VLC kapatmıyor.
+        runCatching { openDescriptor?.close() }
+            .onFailure { Log.w(TAG, "Dosya tanımlayıcı kapatılamadı", it) }
+        openDescriptor = null
     }
 
     private companion object {
