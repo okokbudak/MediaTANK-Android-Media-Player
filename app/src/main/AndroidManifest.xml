@@ -17,9 +17,24 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
-    <!-- Android TV: touchscreen NOT required, Leanback launcher IS -->
+    <!--
+      Android 13'te (API 33) depolama izni tür bazlı izinlere bölündü.
+      Yerel/USB gezgini video, müzik ve fotoğrafları listelediği için üçü de
+      isteniyor.
+    -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!--
+      Hem televizyonda hem telefon/tablette çalışır.
+
+      leanback required="false" olmalı: true bırakılırsa uygulama TV dışındaki
+      cihazlarda uyumsuz sayılıp kurulamaz. Dokunmatik ekran da zorunlu değil,
+      çünkü televizyonda yok.
+    -->
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
-    <uses-feature android:name="android.software.leanback" android:required="true" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
 
     <application
         android:name=".App"
@@ -36,7 +51,7 @@
         <activity
             android:name=".ui.profile.ProfilesActivity"
             android:exported="true"
-            android:screenOrientation="landscape"
+            android:screenOrientation="unspecified"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize|screenLayout|uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,58 +63,58 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"
-            android:screenOrientation="landscape"
+            android:screenOrientation="unspecified"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize|screenLayout|uiMode" />
 
         <activity
             android:name=".ui.photo.PhotoViewerActivity"
             android:exported="false"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize|screenLayout|uiMode" />
 
         <activity
             android:name=".ui.setup.AddSourceActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="unspecified" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="unspecified" />
 
         <activity
             android:name=".ui.search.SearchActivity"
             android:exported="false"
-            android:screenOrientation="landscape"
+            android:screenOrientation="unspecified"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".ui.detail.DetailsActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="unspecified" />
 
         <activity
             android:name=".ui.nas.NasBrowseActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="unspecified" />
 
         <activity
             android:name=".ui.music.MusicBrowseActivity"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="unspecified" />
 
         <activity
             android:name=".ui.music.MusicPlayerActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
+            android:screenOrientation="unspecified"
             android:configChanges="keyboard|keyboardHidden|navigation|screenSize|screenLayout|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".player.PlaybackActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:supportsPictureInPicture="true"
             android:resizeableActivity="true"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" />

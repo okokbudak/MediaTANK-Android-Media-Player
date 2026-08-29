@@ -19,6 +19,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.lifecycleScope
 import com.orhan.iptv.R
 import com.orhan.iptv.data.MediaItem
+import com.orhan.iptv.data.local.SafBrowser
 import com.orhan.iptv.data.smb.SmbBrowser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -188,7 +189,7 @@ class PhotoViewerActivity : AppCompatActivity() {
      */
     private suspend fun decode(item: MediaItem): Bitmap? = withContext(Dispatchers.IO) {
         runCatching {
-            val bytes = SmbBrowser.readBytes(item)
+            val bytes = readBytes(item)
 
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
@@ -205,6 +206,22 @@ class PhotoViewerActivity : AppCompatActivity() {
             // uygulanmazsa fotoğraf yan yatık görünür.
             applyExifRotation(bitmap, bytes)
         }.getOrNull()
+    }
+
+    /**
+     * Fotoğrafın baytlarını kaynağına göre okur.
+     *
+     * NAS fotoğrafları jcifs ile, cihazdakiler content:// üzerinden geliyor;
+     * ikincisi Android 11+ Storage Access Framework yolunun karşılığı.
+     */
+    private fun readBytes(item: MediaItem): ByteArray = when {
+        item.playUrl.startsWith("content://") ->
+            SafBrowser.readBytes(this, item.playUrl)
+
+        item.playUrl.startsWith("file://") ->
+            java.io.File(item.playUrl.removePrefix("file://")).readBytes()
+
+        else -> SmbBrowser.readBytes(item)
     }
 
     /** EXIF yönelim etiketini bitmap'e uygular. Etiket yoksa kare olduğu gibi döner. */

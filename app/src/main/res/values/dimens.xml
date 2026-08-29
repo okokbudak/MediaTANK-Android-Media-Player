@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Overscan güvenli alan: DESIGN.md 1920px genişlik referansında 80x60px ister.
-  Android TV varsayılan olarak 960dp genişlikte çalışır (1920px @ xhdpi),
-  yani px değerlerinin yarısı dp olur: 40dp / 30dp.
+  Telefon ölçüleri (varsayılan kova).
+
+  Televizyon ve tabletin değerleri values-sw600dp/dimens.xml içinde. Ayrım
+  gerekliydi: TV için ayarlanmış 150dp'lik kenar çubuğu ve 40dp'lik overscan
+  boşluğu, 360dp genişliğindeki bir telefonda ekranın yarısını yiyordu.
 -->
 <resources>
-    <dimen name="safe_margin_x">40dp</dimen>
-    <dimen name="safe_margin_y">30dp</dimen>
-    <dimen name="gutter">12dp</dimen>
-    <dimen name="card_gap">16dp</dimen>
+    <!-- Telefonda overscan diye bir şey yok; kenar boşlukları küçük. -->
+    <dimen name="safe_margin_x">16dp</dimen>
+    <dimen name="safe_margin_y">12dp</dimen>
+    <dimen name="gutter">8dp</dimen>
+    <dimen name="card_gap">10dp</dimen>
 
-    <dimen name="radius_card">16dp</dimen>
-    <dimen name="radius_modal">24dp</dimen>
+    <dimen name="radius_card">14dp</dimen>
+    <dimen name="radius_modal">20dp</dimen>
 
-    <dimen name="sidebar_width">150dp</dimen>
-    <!-- Kategori sütunu: "FILM: En Yeniler 2025" gibi uzun adlar sığmalı -->
-    <dimen name="category_width">200dp</dimen>
+    <!-- Yalnız ikon: dar ekranda etiketli çubuk çok yer kaplıyor. -->
+    <dimen name="sidebar_width">56dp</dimen>
+    <dimen name="category_width">130dp</dimen>
     <dimen name="sidebar_width_expanded">120dp</dimen>
 
-    <!-- Kart boyutları (dp) -->
-    <dimen name="poster_w">110dp</dimen>
-    <dimen name="poster_h">165dp</dimen>
-    <dimen name="wide_w">200dp</dimen>
-    <dimen name="wide_h">113dp</dimen>
-    <dimen name="channel_w">160dp</dimen>
-    <dimen name="channel_h">80dp</dimen>
+    <!-- Kart boyutları -->
+    <dimen name="poster_w">96dp</dimen>
+    <dimen name="poster_h">144dp</dimen>
+    <dimen name="wide_w">160dp</dimen>
+    <dimen name="wide_h">90dp</dimen>
+    <dimen name="channel_w">150dp</dimen>
+    <dimen name="channel_h">72dp</dimen>
 
-    <!-- Tipografi (DESIGN.md px / 2 = dp) -->
-    <dimen name="text_display_lg">28sp</dimen>
-    <dimen name="text_headline_lg">20sp</dimen>
-    <dimen name="text_headline_md">16sp</dimen>
-    <dimen name="text_title_lg">12sp</dimen>
-    <dimen name="text_body_lg">10sp</dimen>
-    <dimen name="text_body_md">9sp</dimen>
-    <dimen name="text_label_sm">7sp</dimen>
+    <!--
+      Tipografi. TV'de 10 adım uzaktan okunacak boyutlar gerekiyordu; telefon
+      elde tutulduğu için daha küçük değerler doğru.
+    -->
+    <dimen name="text_display_lg">22sp</dimen>
+    <dimen name="text_headline_lg">17sp</dimen>
+    <dimen name="text_headline_md">14sp</dimen>
+    <dimen name="text_title_lg">13sp</dimen>
+    <dimen name="text_body_lg">13sp</dimen>
+    <dimen name="text_body_md">12sp</dimen>
+    <dimen name="text_label_sm">9sp</dimen>
 </resources>

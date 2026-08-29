@@ -46,6 +46,7 @@
     <string name="music_local">USB / Dahili Depolama</string>
     <string name="music_empty">Bu klasörde müzik yok</string>
     <string name="music_play_all">Tümünü çal</string>
+    <string name="music_add_folder">Klasör ekle</string>
 
     <string name="search_hint">Ara…</string>
     <string name="search_title">Arama</string>

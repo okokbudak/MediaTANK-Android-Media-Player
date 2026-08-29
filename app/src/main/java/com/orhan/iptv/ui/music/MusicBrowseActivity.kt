@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.orhan.iptv.data.Repository
 import com.orhan.iptv.data.Source
 import com.orhan.iptv.data.SourceType
 import com.orhan.iptv.data.local.LocalBrowser
+import com.orhan.iptv.data.local.SafBrowser
 import com.orhan.iptv.data.smb.SmbBrowser
 import com.orhan.iptv.ui.RowAdapter
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +38,7 @@ class MusicBrowseActivity : AppCompatActivity() {
     private lateinit var progress: View
     private lateinit var empty: TextView
     private lateinit var playAll: TextView
+    private lateinit var addFolderButton: TextView
 
     private val adapter = RowAdapter { item -> onItemClick(item) }
 
@@ -68,7 +71,32 @@ class MusicBrowseActivity : AppCompatActivity() {
             if (currentTracks.isNotEmpty()) MusicPlayerActivity.start(this, currentTracks, 0)
         }
 
+        addFolderButton = findViewById(R.id.btn_list_view_mode)
+        addFolderButton.text = getString(R.string.music_add_folder)
+        addFolderButton.visibility = View.GONE
+        addFolderButton.setOnClickListener {
+            runCatching { folderPicker.launch(null) }
+                .onFailure {
+                    Toast.makeText(this, "Klasör seçici açılamadı", Toast.LENGTH_SHORT).show()
+                }
+        }
+
         showSources()
+    }
+
+    /**
+     * Kullanıcının seçtiği klasörün iznini kalıcı alır.
+     *
+     * Android 11+ ham dosya erişimini engellediği için USB ve dahili
+     * depolamaya ancak böyle ulaşılabiliyor; izin bir kez veriliyor ve
+     * saklanıyor.
+     */
+    private val folderPicker = registerForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        if (uri == null) return@registerForActivityResult
+        SafBrowser.rememberFolder(this, uri)
+        loadLocal(null)
     }
 
     // --- Kaynak listesi ---
@@ -130,12 +158,29 @@ class MusicBrowseActivity : AppCompatActivity() {
     }
 
     private fun loadLocal(path: String?) {
-        titleView.text = path?.substringAfterLast('/') ?: getString(R.string.music_local)
-        subtitleView.text = path ?: "USB ve dahili depolama"
+        val saf = SafBrowser.useSaf()
+
+        titleView.text = when {
+            path == null -> getString(R.string.music_local)
+            saf -> path.substringAfterLast("%2F").substringAfterLast('/')
+            else -> path.substringAfterLast('/')
+        }
+        subtitleView.text = when {
+            path != null -> if (saf) "Cihaz klasörü" else path
+            saf -> "Yetki verilen klasörler"
+            else -> "USB ve dahili depolama"
+        }
+
+        // Android 11+ ham dosya erişimini engelliyor; orada klasör seçtiriyoruz.
+        addFolderButton.visibility = if (saf && path == null) View.VISIBLE else View.GONE
 
         loadWith {
-            if (path == null) LocalBrowser.roots(this@MusicBrowseActivity)
-            else LocalBrowser.list(path)
+            when {
+                path != null && saf -> SafBrowser.list(this@MusicBrowseActivity, path)
+                path != null -> LocalBrowser.list(path)
+                saf -> SafBrowser.roots(this@MusicBrowseActivity)
+                else -> LocalBrowser.roots(this@MusicBrowseActivity)
+            }
         }
     }
 
@@ -235,11 +280,19 @@ class MusicBrowseActivity : AppCompatActivity() {
             }
             source != null -> showSources()
 
-            // Yerel: üst klasöre, kök listesine, sonra kaynaklara.
+            // Yerel: bir üst seviyeye, sonra kök listesine.
+            //
+            // SAF'ta klasör ağacında geriye yürüyemiyoruz — her klasör
+            // bağımsız bir belge URI'si ve üst klasörü taşımıyor. Bu yüzden
+            // orada doğrudan yetkili klasörler listesine dönülüyor.
             localPath != null -> {
-                val parent = java.io.File(localPath!!).parentFile
-                val roots = LocalBrowser.roots(this).map { it.playUrl }
-                localPath = if (parent != null && localPath !in roots) parent.absolutePath else null
+                localPath = if (SafBrowser.useSaf()) {
+                    null
+                } else {
+                    val parent = java.io.File(localPath!!).parentFile
+                    val roots = LocalBrowser.roots(this).map { it.playUrl }
+                    if (parent != null && localPath !in roots) parent.absolutePath else null
+                }
                 loadLocal(localPath)
             }
 

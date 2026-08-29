@@ -153,6 +153,8 @@ class MainActivity : AppCompatActivity() {
         navIcons[Section.MOVIES] = findViewById(R.id.nav_movies)
         navIcons[Section.SERIES] = findViewById(R.id.nav_series)
 
+        applySidebarLabels()
+
         navIcons.forEach { (target, icon) -> icon.setOnClickListener { show(target) } }
         findViewById<View>(R.id.nav_music).setOnClickListener {
             startActivity(Intent(this, MusicBrowseActivity::class.java))
@@ -162,6 +164,29 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
         markActiveNav()
+    }
+
+    /**
+     * Dar ekranlarda kenar çubuğunu ikon-only yapar.
+     *
+     * Etiketler XML'de duruyor; burada yalnız gizleniyor. Böylece erişilebilirlik
+     * için `contentDescription` yerine gerçek metin korunuyor ve büyük ekranda
+     * aynı düzen etiketli çalışıyor.
+     */
+    private fun applySidebarLabels() {
+        if (resources.getBoolean(R.bool.sidebar_show_labels)) return
+
+        val allItems = navIcons.values + listOf<TextView>(
+            findViewById(R.id.nav_music),
+            findViewById(R.id.nav_nas),
+            findViewById(R.id.nav_settings)
+        )
+        allItems.forEach { item ->
+            item.contentDescription = item.text
+            item.text = ""
+            // İkonu ortala: metin gidince drawableStart sola yapışık kalıyor.
+            item.gravity = android.view.Gravity.CENTER
+        }
     }
 
     private fun markActiveNav() {

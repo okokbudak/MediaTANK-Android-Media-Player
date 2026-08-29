@@ -196,6 +196,26 @@ object Repository {
         prefs.edit().remove(scope() + "pos_" + itemId).apply()
     }
 
+    // --- Yerel klasörler (cihaz geneli) ---
+
+    /**
+     * Kullanıcının Storage Access Framework ile yetki verdiği klasörlerin
+     * URI'leri. Android 11+ ham dosya erişimini engellediği için gezinme
+     * yalnız burada kayıtlı klasörlerde yapılabiliyor.
+     */
+    fun localFolders(): List<String> =
+        prefs.getStringSet("local_folders", emptySet())?.sorted().orEmpty()
+
+    fun addLocalFolder(uri: String) {
+        val updated = HashSet(localFolders()) + uri
+        prefs.edit().putStringSet("local_folders", updated).apply()
+    }
+
+    fun removeLocalFolder(uri: String) {
+        val updated = HashSet(localFolders()) - uri
+        prefs.edit().putStringSet("local_folders", updated).apply()
+    }
+
     // --- TMDB (cihaz geneli) ---
 
     /**

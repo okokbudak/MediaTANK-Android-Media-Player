@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Büyük ekranlar (tablet, televizyon). Televizyon 960dp genişliktedir ve bu
+  eşiği rahatça geçer. Varsayılan values/dimens.xml artık telefon içindir.
+-->
+<!--
+  Overscan güvenli alan: DESIGN.md 1920px genişlik referansında 80x60px ister.
+  Android TV varsayılan olarak 960dp genişlikte çalışır (1920px @ xhdpi),
+  yani px değerlerinin yarısı dp olur: 40dp / 30dp.
+-->
+<resources>
+    <dimen name="safe_margin_x">40dp</dimen>
+    <dimen name="safe_margin_y">30dp</dimen>
+    <dimen name="gutter">12dp</dimen>
+    <dimen name="card_gap">16dp</dimen>
+
+    <dimen name="radius_card">16dp</dimen>
+    <dimen name="radius_modal">24dp</dimen>
+
+    <dimen name="sidebar_width">150dp</dimen>
+    <!-- Kategori sütunu: "FILM: En Yeniler 2025" gibi uzun adlar sığmalı -->
+    <dimen name="category_width">200dp</dimen>
+    <dimen name="sidebar_width_expanded">120dp</dimen>
+
+    <!-- Kart boyutları (dp) -->
+    <dimen name="poster_w">110dp</dimen>
+    <dimen name="poster_h">165dp</dimen>
+    <dimen name="wide_w">200dp</dimen>
+    <dimen name="wide_h">113dp</dimen>
+    <dimen name="channel_w">160dp</dimen>
+    <dimen name="channel_h">80dp</dimen>
+
+    <!-- Tipografi (DESIGN.md px / 2 = dp) -->
+    <dimen name="text_display_lg">28sp</dimen>
+    <dimen name="text_headline_lg">20sp</dimen>
+    <dimen name="text_headline_md">16sp</dimen>
+    <dimen name="text_title_lg">12sp</dimen>
+    <dimen name="text_body_lg">10sp</dimen>
+    <dimen name="text_body_md">9sp</dimen>
+    <dimen name="text_label_sm">7sp</dimen>
+</resources>
