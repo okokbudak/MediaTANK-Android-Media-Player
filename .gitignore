@@ -1,0 +1,23 @@
+# Derleme çıktıları
+build/
+.gradle/
+*.apk
+*.aab
+
+# Makineye özel yollar ve kimlik bilgileri
+local.properties
+*.jks
+*.keystore
+
+# Yerel araç kurulumu (Gradle dağıtımı ~271 MB, depoya girmemeli)
+.tools/
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Günlükler ve geçici dosyalar
+*.log
+captures/

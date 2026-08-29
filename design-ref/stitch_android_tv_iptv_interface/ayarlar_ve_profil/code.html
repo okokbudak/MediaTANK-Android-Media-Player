@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IPTV Settings &amp; Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#005bc1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-error": "#690005",
+                        "secondary-container": "#3834b6",
+                        "on-tertiary-container": "#4c1a00",
+                        "surface-container-highest": "#353534",
+                        "surface-tint": "#adc6ff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "secondary-fixed-dim": "#c2c1ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#adc6ff",
+                        "outline": "#8b90a0",
+                        "on-secondary-container": "#b2b1ff",
+                        "on-primary-fixed-variant": "#004493",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary": "#002e69",
+                        "primary-container": "#4b8eff",
+                        "on-surface-variant": "#c1c6d7",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary": "#571e00",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3631b4",
+                        "on-primary-fixed": "#001a41",
+                        "secondary-fixed": "#e2dfff",
+                        "background": "#131313",
+                        "outline-variant": "#414755",
+                        "tertiary-container": "#ef6719",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffb595",
+                        "surface-bright": "#393939",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary": "#1c0b9f",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-dim": "#131313",
+                        "on-background": "#e5e2e1",
+                        "surface": "#131313",
+                        "on-secondary-fixed": "#0c006a",
+                        "secondary": "#c2c1ff",
+                        "surface-container": "#201f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "safe-margin-y": "60px",
+                        "safe-margin-x": "80px",
+                        "focus-scale": "1.1",
+                        "card-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "title-lg": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow: hidden;
+            user-select: none;
+        }
+        
+        .tv-focus:focus {
+            transform: scale(1.05);
+            outline: 2px solid #adc6ff;
+            box-shadow: 0 0 24px rgba(173, 198, 255, 0.4);
+            z-index: 10;
+        }
+        
+        .tv-focus {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Subdued scrollbar for side nav if needed */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #414755;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen text-on-background font-body-md relative antialiased flex">
+<!-- Ambient Background -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="absolute top-0 right-0 w-2/3 h-2/3 bg-primary/10 rounded-full blur-[120px] mix-blend-screen"></div>
+<div class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-secondary/10 rounded-full blur-[100px] mix-blend-screen"></div>
+</div>
+<!-- SideNavBar (Semantic Nav Shell) -->
+<nav class="fixed left-0 top-0 h-full w-20 hover:w-64 transition-all duration-300 z-50 bg-surface/60 backdrop-blur-xl group flex flex-col items-center py-gutter border-r border-surface-container/60 shadow-24px">
+<!-- Brand/Avatar area -->
+<div class="mb-12 flex flex-col items-center w-full px-4">
+<div class="w-12 h-12 rounded-full bg-surface-container overflow-hidden tv-focus shrink-0" tabindex="0">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A cinematic, high-contrast portrait of an anonymous user avatar in a neon-lit, premium dark-mode interface setting. Deep shadows, electric blue accents, professional broadcast quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPNqLEUxVKm9BB-oNsAsTBUevyyKJlI0poMH_IwDFqAI_91Zv_eg978-6nFpyvJi3xUiObKyWA1o19BVSK0zg0Ela3_zMxUmU08zDlPmQMHCkc4dIAvhAAQLg8-59E9Sy3LtG_g37GNzwChe2pGEtaHIdTNRtB6o5GUcBTdUcrKKEMmdRvMTTGqIY9yp11yBHkZQ--lU40-Z1pYuGG1cyX4UMcWlUWliraJAVYGpfz-khbVkTBh6JW"/>
+</div>
+<div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap overflow-hidden text-center">
+<h1 class="font-headline-md text-headline-md font-bold text-primary truncate">IPTV Premium</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">4K Ultra HD</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 w-full flex flex-col gap-2 px-2">
+<!-- Home -->
+<a class="flex items-center gap-4 p-3 rounded-xl tv-focus text-on-surface-variant opacity-70 hover:bg-surface-variant hover:scale-110" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Home</span>
+</a>
+<!-- Live TV -->
+<a class="flex items-center gap-4 p-3 rounded-xl tv-focus text-on-surface-variant opacity-70 hover:bg-surface-variant hover:scale-110" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 0;">live_tv</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Live TV</span>
+</a>
+<!-- Movies -->
+<a class="flex items-center gap-4 p-3 rounded-xl tv-focus text-on-surface-variant opacity-70 hover:bg-surface-variant hover:scale-110" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 0;">movie</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Movies</span>
+</a>
+<!-- Series -->
+<a class="flex items-center gap-4 p-3 rounded-xl tv-focus text-on-surface-variant opacity-70 hover:bg-surface-variant hover:scale-110" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 0;">save_as</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Series</span>
+</a>
+<!-- Favorites -->
+<a class="flex items-center gap-4 p-3 rounded-xl tv-focus text-on-surface-variant opacity-70 hover:bg-surface-variant hover:scale-110" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Favorites</span>
+</a>
+<div class="mt-auto"></div>
+<!-- Settings (ACTIVE) -->
+<a class="flex items-center gap-4 p-3 tv-focus bg-primary-container text-on-primary-container rounded-full scale-110 border-2 border-primary shadow-[0_0_24px_rgba(173,198,255,0.5)] active-nav-item" href="#" tabindex="0">
+<span class="material-symbols-outlined shrink-0" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-md text-body-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap font-bold">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-20 flex-1 h-screen overflow-hidden relative z-10 p-safe-margin-y px-safe-margin-x flex flex-col gap-8">
+<!-- Header -->
+<header class="flex justify-between items-end pb-4 border-b border-surface-container-high/50">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background tracking-tight">Ayarlar &amp; Profil</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Hesabınızı ve cihaz tercihlerinizi yönetin</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container/40 px-4 py-2 rounded-full backdrop-blur-md">
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span class="font-label-sm text-label-sm">Bağlı (120ms)</span>
+</div>
+</header>
+<div class="flex flex-1 gap-12 overflow-hidden pb-4">
+<!-- Left Column: Settings Grid (List format optimized for TV D-pad) -->
+<div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-4" id="settings-list">
+<!-- Account -->
+<button class="w-full flex items-center justify-between p-6 rounded-xl bg-surface-container/60 backdrop-blur-sm border border-white/5 tv-focus text-left group" tabindex="0">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-focus:bg-primary/20 group-focus:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">manage_accounts</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-background">Hesap (Account)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Giriş bilgileri, şifre ve cihaz yönetimi</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-primary">chevron_right</span>
+</button>
+<!-- Network -->
+<button class="w-full flex items-center justify-between p-6 rounded-xl bg-surface-container/60 backdrop-blur-sm border border-white/5 tv-focus text-left group" tabindex="0">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-focus:bg-primary/20 group-focus:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">router</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-background">Ağ (Network)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Bağlantı durumu, hız testi ve proxy ayarları</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-primary">chevron_right</span>
+</button>
+<!-- Playback -->
+<button class="w-full flex items-center justify-between p-6 rounded-xl bg-surface-container/60 backdrop-blur-sm border border-white/5 tv-focus text-left group" tabindex="0">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-focus:bg-primary/20 group-focus:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">play_circle</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-background">Oynatma (Playback)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Video kalitesi, altyazı dili ve ses tercihleri</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-primary">chevron_right</span>
+</button>
+<!-- Parental Control -->
+<button class="w-full flex items-center justify-between p-6 rounded-xl bg-surface-container/60 backdrop-blur-sm border border-white/5 tv-focus text-left group" tabindex="0">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-focus:bg-primary/20 group-focus:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">family_restroom</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-background">Ebeveyn Kontrolü</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">İçerik kısıtlamaları ve PIN yönetimi</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-primary">chevron_right</span>
+</button>
+<!-- About -->
+<button class="w-full flex items-center justify-between p-6 rounded-xl bg-surface-container/60 backdrop-blur-sm border border-white/5 tv-focus text-left group" tabindex="0">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-focus:bg-primary/20 group-focus:text-primary transition-colors">
+<span class="material-symbols-outlined text-3xl">info</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-background">Hakkında (About)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Uygulama sürümü, yasal uyarılar ve destek</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-focus:text-primary">chevron_right</span>
+</button>
+</div>
+<!-- Right Column: Profile Overview Glass Card -->
+<div class="w-[400px] shrink-0 flex flex-col gap-6">
+<div class="bg-surface-container-highest/40 backdrop-blur-2xl rounded-2xl p-8 border border-white/10 flex flex-col items-center text-center tv-focus" tabindex="0">
+<div class="w-32 h-32 rounded-full border-4 border-surface-container-high overflow-hidden mb-6 shadow-24px relative">
+<img alt="Large User Avatar" class="w-full h-full object-cover" data-alt="A cinematic, high-contrast portrait of an anonymous user avatar in a neon-lit, premium dark-mode interface setting. Deep shadows, electric blue accents, professional broadcast quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJSa1MZrdDGPM87EtjVoSdPIBwFXQr_8WaIPYpVsZWiusT8gpmZ6tKjqjJaik2JdkD-jix7Cy0gvlsQsorkzh_8Yb4YTXJ0iAew8CwKyiJt_258sy2baEMQWgFcVTCHoNCpnJIOwYVpUAYVDtovOIFu_3yC0BNmLjmga1lsAclDuWOlmbRr2HHjVdyzV5XIQL37d1PfeWpakokw-xh96oX_CgDAER5RNug1dNY-CptsireXOCaibqm"/>
+<div class="absolute bottom-0 inset-x-0 bg-primary py-1 font-label-sm text-label-sm text-on-primary">PRO</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background mb-2">Ahmet Yılmaz</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">ahmet.y@example.com</p>
+<div class="w-full bg-surface-container/50 rounded-xl p-4 border border-white/5 text-left mb-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Abonelik Durumu</span>
+<span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-bold">AKTİF</span>
+</div>
+<div class="font-title-lg text-title-lg text-on-background">Premium 4K Paket</div>
+</div>
+<div class="w-full bg-surface-container/50 rounded-xl p-4 border border-white/5 text-left mb-8">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Bitiş Tarihi</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">calendar_today</span>
+</div>
+<div class="font-title-lg text-title-lg text-primary">15 Kasım 2024</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Kalan süre: 42 gün</p>
+</div>
+<button class="w-full py-4 px-6 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm tv-focus hover:bg-surface-variant transition-colors" tabindex="0">
+                        Aboneliği Yenile
+                    </button>
+<button class="w-full py-4 px-6 mt-4 rounded-full bg-error-container/20 text-error font-label-sm text-label-sm tv-focus hover:bg-error-container/40 transition-colors border border-error/20" tabindex="0">
+                        Çıkış Yap
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Basic TV Navigation Logic Simulation -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const focusableElements = Array.from(document.querySelectorAll('.tv-focus'));
+            if(focusableElements.length > 0) {
+                // Focus the first item in the settings list by default to guide the user
+                const firstListItem = document.querySelector('#settings-list .tv-focus');
+                if(firstListItem) {
+                    firstListItem.focus();
+                } else {
+                    focusableElements[0].focus();
+                }
+            }
+
+            // Simple keyboard navigation (simulating TV D-pad)
+            document.addEventListener('keydown', (e) => {
+                const currentFocus = document.activeElement;
+                if (!currentFocus || !currentFocus.classList.contains('tv-focus')) return;
+
+                const currentIndex = focusableElements.indexOf(currentFocus);
+                let nextIndex = currentIndex;
+
+                // Extremely simplified nav mapping for demonstration. 
+                // A real TV app uses spatial navigation algorithms (like LRUD).
+                switch(e.key) {
+                    case 'ArrowDown':
+                        nextIndex = currentIndex + 1;
+                        break;
+                    case 'ArrowUp':
+                        nextIndex = currentIndex - 1;
+                        break;
+                    // Left/Right just jump large amounts or stay for this simple demo
+                    case 'ArrowRight':
+                        nextIndex = Math.min(currentIndex + 5, focusableElements.length - 1);
+                        break;
+                    case 'ArrowLeft':
+                        nextIndex = Math.max(currentIndex - 5, 0);
+                        break;
+                }
+
+                if (nextIndex >= 0 && nextIndex < focusableElements.length) {
+                    e.preventDefault();
+                    focusableElements[nextIndex].focus();
+                }
+            });
+        });
+    </script>
+</body></html>

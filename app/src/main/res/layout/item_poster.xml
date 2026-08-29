@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2:3 film afişi kartı. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/poster_w"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_gap"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/card_frame"
+        android:layout_width="@dimen/poster_w"
+        android:layout_height="@dimen/poster_h"
+        android:background="@drawable/card_selector"
+        android:focusable="true"
+        android:clipToOutline="true">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null"
+            tools:src="@drawable/app_banner" />
+
+        <TextView
+            android:id="@+id/badge"
+            style="@style/Text.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_pill"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:visibility="gone"
+            tools:text="4K" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/on_surface"
+        tools:text="Film Adı" />
+</LinearLayout>

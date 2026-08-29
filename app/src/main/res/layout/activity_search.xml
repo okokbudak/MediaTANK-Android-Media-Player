@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/safe_margin_x"
+    android:paddingEnd="@dimen/safe_margin_x"
+    android:paddingTop="@dimen/safe_margin_y"
+    android:paddingBottom="@dimen/safe_margin_y">
+
+    <TextView
+        android:id="@+id/search_scope"
+        style="@style/Text.Display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Filmlerde Ara" />
+
+    <EditText
+        android:id="@+id/search_field"
+        style="@style/FormField"
+        android:layout_width="match_parent"
+        android:hint="@string/search_hint"
+        android:imeOptions="actionSearch"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/result_summary"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/search_prompt" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+</LinearLayout>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  İçerik detayı: solda afiş ve eylemler, sağda özet ile sezon/bölüm listesi.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/safe_margin_x"
+    android:paddingEnd="@dimen/safe_margin_x"
+    android:paddingTop="@dimen/safe_margin_y"
+    android:paddingBottom="@dimen/safe_margin_y">
+
+    <!-- Sol: afiş + eylemler -->
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/bg_card"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/btn_play"
+            style="@style/FormButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:drawableStart="@drawable/ic_play"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/detail_play" />
+
+        <TextView
+            android:id="@+id/btn_resume"
+            style="@style/FormButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            tools:text="Kaldığı yerden (12:30)"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/btn_favorite"
+            style="@style/FormButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            tools:text="★ Favorilere ekle" />
+
+        <TextView
+            android:id="@+id/btn_watched"
+            style="@style/FormButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            tools:text="✓ İzledim" />
+    </LinearLayout>
+
+    <!-- Sağ: bilgiler -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Text.Display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Film Adı 2025" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/stars"
+                style="@style/Text.HeadlineMd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tertiary"
+                tools:text="★★★★☆" />
+
+            <TextView
+                android:id="@+id/rating_value"
+                style="@style/Text.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="7.4 / 10" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/meta"
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="2025 · Aksiyon, Gerilim · 118 dk" />
+
+        <TextView
+            android:id="@+id/plot"
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            tools:text="Özet metni…" />
+
+        <TextView
+            android:id="@+id/credits"
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Oyuncular: …" />
+
+        <!-- Sezon seçici (yalnız dizilerde) -->
+        <LinearLayout
+            android:id="@+id/season_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/Text.HeadlineMd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="@string/detail_season" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/season_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/episodes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="vertical" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="@style/Spinner"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/empty"
+                style="@style/Text.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:text="Bölüm bulunamadı" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

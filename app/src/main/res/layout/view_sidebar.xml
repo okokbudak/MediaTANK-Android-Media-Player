@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Kenar çubuğu: ikon + ad. Adlar TV'de tek bakışta okunabilsin diye ikon
+  yanında duruyor; yalnız ikon bırakmak hangi bölümün ne olduğunu tahmine
+  bırakıyordu.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/sidebar_width"
+    android:layout_height="match_parent"
+    android:background="@color/surface_container_lowest"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/safe_margin_y"
+    android:paddingBottom="@dimen/safe_margin_y">
+
+    <TextView
+        android:id="@+id/nav_home"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_home"
+        android:text="Ana Sayfa" />
+
+    <TextView
+        android:id="@+id/nav_live"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_live"
+        android:text="@string/row_live" />
+
+    <TextView
+        android:id="@+id/nav_movies"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_movie"
+        android:text="@string/row_vod" />
+
+    <TextView
+        android:id="@+id/nav_series"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_series"
+        android:text="@string/row_series" />
+
+    <TextView
+        android:id="@+id/nav_music"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_music"
+        android:text="@string/row_music" />
+
+    <TextView
+        android:id="@+id/nav_nas"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_nas"
+        android:text="@string/row_nas" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/nav_settings"
+        style="@style/SidebarItem"
+        android:drawableStart="@drawable/ic_settings"
+        android:text="@string/row_settings" />
+</LinearLayout>

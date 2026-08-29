@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingStart="@dimen/safe_margin_x"
+    android:paddingEnd="@dimen/safe_margin_x"
+    android:paddingTop="@dimen/safe_margin_y"
+    android:paddingBottom="@dimen/safe_margin_y">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Text.Display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/row_settings" />
+
+        <TextView
+            android:id="@+id/profile_line"
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" />
+
+        <!-- Dil tercihleri -->
+        <TextView
+            style="@style/Text.HeadlineMd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/settings_languages" />
+
+        <TextView
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_languages_hint" />
+
+        <TextView
+            android:id="@+id/btn_audio_language"
+            style="@style/SettingRow"
+            android:layout_width="520dp" />
+
+        <TextView
+            android:id="@+id/btn_subtitle_language"
+            style="@style/SettingRow"
+            android:layout_width="520dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Oynatıcı -->
+        <TextView
+            style="@style/Text.HeadlineMd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/settings_player" />
+
+        <TextView
+            android:id="@+id/btn_engine"
+            style="@style/SettingRow"
+            android:layout_width="520dp"
+            android:layout_marginTop="10dp" />
+
+        <!-- Film bilgisi -->
+        <TextView
+            style="@style/Text.HeadlineMd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/settings_metadata" />
+
+        <TextView
+            style="@style/Text.Body"
+            android:layout_width="520dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_metadata_hint" />
+
+        <TextView
+            android:id="@+id/btn_tmdb_key"
+            style="@style/SettingRow"
+            android:layout_width="520dp" />
+
+        <TextView
+            android:id="@+id/btn_clear_meta"
+            style="@style/SettingRow"
+            android:layout_width="520dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_clear_metadata" />
+
+        <!-- Kaynaklar -->
+        <TextView
+            style="@style/Text.HeadlineMd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/settings_sources" />
+
+        <TextView
+            android:id="@+id/btn_sources"
+            style="@style/SettingRow"
+            android:layout_width="520dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/menu_add_source" />
+
+        <TextView
+            android:id="@+id/btn_profiles"
+            style="@style/SettingRow"
+            android:layout_width="520dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_switch_profile" />
+    </LinearLayout>
+</ScrollView>

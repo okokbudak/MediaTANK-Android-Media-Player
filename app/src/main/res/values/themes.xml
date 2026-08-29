@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BraviaIPTV" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/primary_container</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColorPrimary">@color/on_surface</item>
+        <item name="android:textColorSecondary">@color/on_surface_variant</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.BraviaIPTV.Player" parent="Theme.BraviaIPTV">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <!-- Metin stilleri: 10-foot UI, minimum body 18px(=9sp) -->
+    <style name="Text.Display" parent="">
+        <item name="android:textSize">@dimen/text_display_lg</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="Text.HeadlineMd" parent="">
+        <item name="android:textSize">@dimen/text_headline_md</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="Text.Body" parent="">
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface_variant</item>
+    </style>
+
+    <style name="SidebarItem" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/sidebar_row_selector</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawableTint">@color/on_surface</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <!-- Tüm ekranlarda aynı, gerçekten dönen yükleme göstergesi -->
+    <style name="Spinner" parent="">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/loading_spinner</item>
+        <item name="android:indeterminateDuration">900</item>
+    </style>
+
+    <style name="SettingRow" parent="">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <!-- İçerik başlığının yanındaki küçük eylem düğmeleri (görünüm, sıralama) -->
+    <style name="ToolbarChip" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="FormField" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">420dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@drawable/bg_field</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textColorHint">@color/outline</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="FormRadio" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="FormButton" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_button_primary</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/text_body_md</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+    <style name="PlayerButton" parent="">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/sidebar_item_selector</item>
+        <item name="android:focusable">true</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="Text.Label" parent="">
+        <item name="android:textSize">@dimen/text_label_sm</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+</resources>

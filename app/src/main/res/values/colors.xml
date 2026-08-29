@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cinematic Pulse paleti (design-ref/cinematic_pulse/DESIGN.md) -->
+<resources>
+    <color name="background">#131313</color>
+    <color name="surface">#131313</color>
+    <color name="surface_container_lowest">#0E0E0E</color>
+    <color name="surface_container_low">#1C1B1B</color>
+    <color name="surface_container">#201F1F</color>
+    <color name="surface_container_high">#2A2A2A</color>
+    <color name="surface_container_highest">#353534</color>
+
+    <color name="on_surface">#E5E2E1</color>
+    <color name="on_surface_variant">#C1C6D7</color>
+    <color name="outline">#8B90A0</color>
+    <color name="outline_variant">#414755</color>
+
+    <color name="primary">#ADC6FF</color>
+    <color name="on_primary">#002E69</color>
+    <color name="primary_container">#4B8EFF</color>
+
+    <color name="secondary">#C2C1FF</color>
+    <color name="secondary_container">#3834B6</color>
+
+    <color name="tertiary">#FFB595</color>
+    <color name="tertiary_container">#EF6719</color>
+
+    <color name="error">#FFB4AB</color>
+    <color name="error_container">#93000A</color>
+
+    <color name="scrim_70">#B3000000</color>
+    <color name="glass">#66201F1F</color>
+</resources>

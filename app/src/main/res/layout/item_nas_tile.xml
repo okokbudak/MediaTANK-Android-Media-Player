@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  NAS ızgara/karo kartı: 16:9 ön izleme + ad.
+  Fotoğraflarda gerçek küçük resim, klasör ve videolarda tür ikonu görünür.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/wide_w"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_gap"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/card_frame"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wide_h"
+        android:background="@drawable/card_selector"
+        android:clipToOutline="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_folder" />
+
+        <TextView
+            android:id="@+id/badge"
+            style="@style/Text.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_pill"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:visibility="gone"
+            tools:text="FOTO" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="middle"
+        android:maxLines="2"
+        android:textColor="@color/on_surface"
+        tools:text="IMG_2043" />
+</LinearLayout>

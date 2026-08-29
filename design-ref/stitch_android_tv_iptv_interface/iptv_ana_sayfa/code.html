@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IPTV Premium - Ana Sayfa</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#005bc1",
+                        "surface-container-high": "#2a2a2a",
+                        "on-error": "#690005",
+                        "secondary-container": "#3834b6",
+                        "on-tertiary-container": "#4c1a00",
+                        "surface-container-highest": "#353534",
+                        "surface-tint": "#adc6ff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "secondary-fixed-dim": "#c2c1ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#adc6ff",
+                        "outline": "#8b90a0",
+                        "on-secondary-container": "#b2b1ff",
+                        "on-primary-fixed-variant": "#004493",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-container": "#00285c",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary": "#002e69",
+                        "primary-container": "#4b8eff",
+                        "on-surface-variant": "#c1c6d7",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary": "#571e00",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3631b4",
+                        "on-primary-fixed": "#001a41",
+                        "secondary-fixed": "#e2dfff",
+                        "background": "#131313",
+                        "outline-variant": "#414755",
+                        "tertiary-container": "#ef6719",
+                        "on-tertiary-fixed": "#351000",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffb595",
+                        "surface-bright": "#393939",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary": "#1c0b9f",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-dim": "#131313",
+                        "on-background": "#e5e2e1",
+                        "surface": "#131313",
+                        "on-secondary-fixed": "#0c006a",
+                        "secondary": "#c2c1ff",
+                        "surface-container": "#201f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "safe-margin-y": "60px",
+                        "safe-margin-x": "80px",
+                        "focus-scale": "1.1",
+                        "card-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["20px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "title-lg": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* Focus & Glow Effects (Layer 2) */
+        .focusable {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 2px solid transparent;
+            outline: none; /* Hide default focus ring */
+        }
+        
+        .focusable:focus, .focusable:hover {
+            transform: scale(1.1);
+            border-color: theme('colors.primary');
+            box-shadow: 0 0 24px theme('colors.primary-container');
+            z-index: 10;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background-color: rgba(42, 42, 42, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hide scrollbar for swimalnes but allow scrolling */
+        .swimlane::-webkit-scrollbar {
+            display: none;
+        }
+        .swimlane {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen relative font-body-md text-body-md">
+<!-- Hero Background Image (Fixed) -->
+<div class="fixed inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center opacity-40" data-alt="A cinematic still from a highly stylized sci-fi movie. A lone figure stands on a neon-lit, rain-slicked futuristic street at night, looking up at colossal holographic advertisements. The lighting is moody and dramatic with deep blues and vivid cyan highlights. The scene feels epic and visually immersive, perfect for a premium streaming service background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD334W0AtLTyizs5pzgIm2EAtAGUUMy6m6lJVSXwcMCai6q4nLJdhzGdyN1f5-JrgtlAwTU39r9hP2mD_9t_daDrZiRehIc9zEFDDpQXfwYQz87A7P7XQJQPG1wYBIXkdvMmsArgt-iv2jD1aHvA-Qt-ly6FBROELAVv0fCraIf7WfvAZ-rZAP-4pojtCeft4NIiWsGg1n7fHGYUfkFTzwAVfPHAedilXRDhG2RA1xatTCitoKeEgsW')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent"></div>
+</div>
+<!-- MAIN NAV COMPONENTS (Generated from JSON) -->
+<!-- TopNavBar -->
+<nav class="fixed top-0 right-0 w-[calc(100%-80px)] h-20 z-40 bg-transparent flex justify-between items-center px-safe-margin-x h-full">
+<!-- Search is 'on_right', Brand is on left -->
+<div class="font-headline-sm text-headline-sm font-black text-primary">IPTV Pro</div>
+<div class="flex items-center gap-6">
+<!-- Trailing Icons -->
+<button aria-label="Cloud" class="text-on-surface hover:bg-white/10 p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 24px;">cloud</span>
+</button>
+<button aria-label="Schedule" class="text-on-surface hover:bg-white/10 p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/10">
+<span class="material-symbols-outlined" style="font-size: 24px;">schedule</span>
+</button>
+<!-- Search Icon (Search Bar on right) -->
+<button aria-label="Arama" class="text-on-surface hover:bg-white/10 p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/10 glass-panel ml-4">
+<span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar (Collapsed State) -->
+<nav class="bg-surface/60 backdrop-blur-xl fixed left-0 top-0 h-full w-20 hover:w-64 transition-all duration-300 z-50 flex flex-col items-center py-gutter h-full shadow-24px group overflow-hidden border-r border-white/5">
+<div class="mb-12 mt-4 flex items-center justify-center w-full px-4">
+<!-- Avatar -->
+<div class="w-10 h-10 rounded-full bg-primary-container flex-shrink-0 flex items-center justify-center border-2 border-primary overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A generic stylized 3D avatar icon of a user profile. The avatar is futuristic and minimal, set against a dark blue background with subtle neon lighting. High quality digital art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHVe6PWda0JpQN_r_Z9xqefgAeLhknAJ-Ct4P_01-JQDz7NOxW7yDi25O4K1myXKqB55kuLKaOtpbTZ9nFn1w1bTIWQLS8IBmFcz8XucTSE8Zs6Dxe_mpl-ny0fsGl3qHvFU3SJBcjaQdmeNH5ZfV3kCdOJdcCYHYZSD0aCq8CiKRna12-yUw3SjYL6dmBqn6_u108g4Nr7cBUDv4xvmhCn_bfmcUImjkbxIL8uT3lMS_lLy6GeNpD"/>
+</div>
+<div class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">
+<div class="font-headline-md text-headline-md font-bold text-primary text-sm truncate">IPTV Premium</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant text-xs">4K Ultra HD</div>
+</div>
+</div>
+<ul class="flex flex-col gap-4 w-full px-2">
+<!-- Active Tab: Home -->
+<li>
+<button aria-label="Home" class="w-full flex items-center p-3 bg-primary-container text-on-primary-container rounded-full scale-110 border-2 border-primary shadow-[0_0_24px_rgba(173,198,255,0.5)] transition-transform duration-200 ease-out outline-none">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px; font-variation-settings: 'FILL' 1;">home</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Home</span>
+</button>
+</li>
+<!-- Inactive Tabs -->
+<li>
+<button aria-label="Live TV" class="w-full flex items-center p-3 text-on-surface-variant opacity-70 hover:scale-110 hover:bg-surface-variant rounded-full transition-all duration-200 outline-none focus:bg-surface-variant focus:scale-110 focus:text-on-surface focus:opacity-100">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px;">live_tv</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Live TV</span>
+</button>
+</li>
+<li>
+<button aria-label="Movies" class="w-full flex items-center p-3 text-on-surface-variant opacity-70 hover:scale-110 hover:bg-surface-variant rounded-full transition-all duration-200 outline-none focus:bg-surface-variant focus:scale-110 focus:text-on-surface focus:opacity-100">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px;">movie</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Movies</span>
+</button>
+</li>
+<li>
+<button aria-label="Series" class="w-full flex items-center p-3 text-on-surface-variant opacity-70 hover:scale-110 hover:bg-surface-variant rounded-full transition-all duration-200 outline-none focus:bg-surface-variant focus:scale-110 focus:text-on-surface focus:opacity-100">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px;">save_as</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Series</span>
+</button>
+</li>
+<li>
+<button aria-label="Favorites" class="w-full flex items-center p-3 text-on-surface-variant opacity-70 hover:scale-110 hover:bg-surface-variant rounded-full transition-all duration-200 outline-none focus:bg-surface-variant focus:scale-110 focus:text-on-surface focus:opacity-100">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px;">favorite</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Favorites</span>
+</button>
+</li>
+</ul>
+<div class="mt-auto w-full px-2">
+<button aria-label="Settings" class="w-full flex items-center p-3 text-on-surface-variant opacity-70 hover:scale-110 hover:bg-surface-variant rounded-full transition-all duration-200 outline-none focus:bg-surface-variant focus:scale-110 focus:text-on-surface focus:opacity-100">
+<span class="material-symbols-outlined flex-shrink-0" style="font-size: 24px;">settings</span>
+<span class="ml-4 font-label-sm text-label-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden md:block">Settings</span>
+</button>
+</div>
+</nav>
+<!-- MAIN CONTENT CANVAS -->
+<!-- Placed safely away from edges and navbar -->
+<main class="relative z-10 pl-[120px] pr-safe-margin-x pt-safe-margin-y pb-safe-margin-y min-h-screen flex flex-col gap-12">
+<!-- HERO SPOTLIGHT -->
+<section class="h-[50vh] flex flex-col justify-end pb-8">
+<div class="max-w-3xl space-y-4">
+<!-- Status Badge -->
+<div class="inline-flex items-center gap-2 glass-panel px-3 py-1 rounded-full border border-primary/30">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface">YENİ BÖLÜM</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-background drop-shadow-2xl">Yıldızların Ötesinde</h1>
+<div class="flex items-center gap-4 text-on-surface-variant font-label-sm text-label-sm">
+<span>2024</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-xs border border-outline/30">4K UHD</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-xs border border-outline/30">18+</span>
+<span>Bilim Kurgu, Gerilim</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface max-w-2xl line-clamp-3 drop-shadow-md">
+                    İnsanlığın son umudu, galaksinin derinliklerinde keşfedilen gizemli bir anormalliği araştırmakla görevlendirilen cesur bir astronot ekibinin elindedir. Gerilim dolu bu yolculukta hiçbir şey göründüğü gibi değil.
+                </p>
+<div class="flex items-center gap-4 pt-4">
+<!-- Primary CTA -->
+<button autofocus="" class="focusable flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-xl font-label-sm text-label-sm hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        Şimdi İzle
+                    </button>
+<!-- Secondary CTA -->
+<button class="focusable flex items-center gap-2 px-6 py-3 glass-panel text-on-surface rounded-full font-label-sm text-label-sm hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">add</span>
+                        Listeme Ekle
+                    </button>
+<button aria-label="Fragman" class="focusable flex items-center gap-2 p-3 glass-panel text-on-surface rounded-full font-label-sm text-label-sm hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+</div>
+</section>
+<!-- CONTINUE WATCHING ROW -->
+<section class="space-y-4">
+<h2 class="font-title-lg text-title-lg text-on-background">İzlemeye Devam Et</h2>
+<div class="swimlane flex gap-card-gap overflow-x-auto pb-8 pt-4 -mt-4">
+<!-- Card 1 (16:9) -->
+<div class="focusable relative w-[320px] aspect-video rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group">
+<img alt="Episode Scene" class="w-full h-full object-cover" data-alt="A scene from a tense political drama series set in a modern, dimly lit government office. Two characters are silhouetted against a large window showing a rainy city skyline. Cinematic lighting, deep shadows, serious mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBusSR6s1UxG5UNZOBQSUzKTMTBtMuuqDkq46viojFE_QNXPMGaxalnX9X7Ldiz3cqUHztvIjddV05zjz4uie9rNdKFjcSQeOSfLltdpbWUTjRkWXD4bHSq9-xnc1boVp5OQb_dTwlz0sFDe0ADX1KD4Wfmo0HREYMNm4wGiEXT3Z5RnNkomyKreVSaVOSf83Sz89A-a_tcNVBkO_Z7iFsmEeSwi2KfKGkVY6ezcFYuqKQEP5uXS10_"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<div class="flex justify-between items-end mb-2">
+<div>
+<h3 class="font-label-sm text-label-sm text-on-surface group-focus:text-primary">Devlet Sırrı</h3>
+<p class="text-xs text-on-surface-variant">S2 B4: "İhanet"</p>
+</div>
+<span class="material-symbols-outlined text-white opacity-0 group-focus:opacity-100 transition-opacity">play_circle</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<!-- Card 2 (16:9) -->
+<div class="focusable relative w-[320px] aspect-video rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group">
+<img alt="Movie Scene" class="w-full h-full object-cover" data-alt="A vivid, colorful scene from an animated fantasy movie. A glowing magical forest filled with strange plants and floating light particles. The visual style is highly detailed 3D animation with a bright, enchanting atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2h-P_jnwdoab-IJz_pDqF1lPLeepBZ-c018gMumeNsfhgLM6NBLCBge3h_MhQF0NEnnG12Y-wqHCvos1rs21_CuWWQl89RZnvzfIBeQqRb-6M5UXMQb6fJvq79pOOZR1_9yeZS2XZ-c_5NG5Z30OppMbV3Z8HpdsSd7fGlfoP8Usr6b_E612OB8PCvLLMSGNPV2rkEm2f2UNo1jF-qAZrXPlE7JIlS27yivu6GXSD3zR66jACB4Tt"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4">
+<div class="flex justify-between items-end mb-2">
+<div>
+<h3 class="font-label-sm text-label-sm text-on-surface group-focus:text-primary">Büyülü Orman</h3>
+<p class="text-xs text-on-surface-variant">Film</p>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 30%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- LIVE TV CHANNELS ROW -->
+<section class="space-y-4">
+<h2 class="font-title-lg text-title-lg text-on-background">Canlı TV Kanalları</h2>
+<div class="swimlane flex gap-card-gap overflow-x-auto pb-8 pt-4 -mt-4">
+<!-- Live Channel Card -->
+<div class="focusable relative w-[240px] aspect-video rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group glass-panel border-l-4 border-l-error">
+<img alt="Sports Channel" class="w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="A sleek, modern sports news television studio broadcast graphic. Abstract 3D geometric shapes in metallic red and blue with a subtle globe motif in the background. Clean, professional broadcast design style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ22pn7u3w8td4IjYARfd3A44xqyZhQT1SvbtnbSIiB4dPZXsDkK4AXE9bK4xYAcOsTTQFXypLQZHBKFMjf9fWw5bBkwP8Cn3AES36hIx1pwsUGX3OPh2rF82ynD8s0K-aUy0VE77wb05jG-7mMHrtTszQTTpUHhRSIvHVRPVL6UBSwF31PCBtl7RM9WNQQNckABdiPSqFw8X9APqJbgpmS769Gdx4PQQ3uaxKxvIkgSn3X8K5K_9h"/>
+<div class="absolute inset-0 bg-surface-container-low/80 group-focus:bg-surface-container-low/60 transition-colors"></div>
+<div class="absolute inset-0 p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">SPOR 1</div>
+<span class="px-1.5 py-0.5 bg-error text-white text-[10px] font-bold rounded">CANLI</span>
+</div>
+<div>
+<p class="text-xs text-primary font-semibold mb-1">Şu An:</p>
+<h3 class="font-label-sm text-label-sm text-on-surface truncate">Derbi Özel: Maça Doğru</h3>
+<div class="w-full h-0.5 bg-surface-container mt-2">
+<div class="h-full bg-error" style="width: 80%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Channel Card -->
+<div class="focusable relative w-[240px] aspect-video rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group glass-panel">
+<div class="absolute inset-0 bg-surface-container-high group-focus:bg-surface-container-highest transition-colors"></div>
+<div class="absolute inset-0 p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-widest text-secondary-fixed">HABER+</div>
+</div>
+<div>
+<p class="text-xs text-primary font-semibold mb-1">Şu An:</p>
+<h3 class="font-label-sm text-label-sm text-on-surface truncate">Akşam Bülteni</h3>
+<div class="w-full h-0.5 bg-surface-container mt-2">
+<div class="h-full bg-primary" style="width: 25%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TRENDING MOVIES ROW (Poster 2:3 ratio) -->
+<section class="space-y-4">
+<h2 class="font-title-lg text-title-lg text-on-background">Trend Filmler</h2>
+<div class="swimlane flex gap-4 overflow-x-auto pb-12 pt-4 -mt-4">
+<!-- Poster Card -->
+<div class="focusable relative w-[180px] aspect-[2/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="A dramatic movie poster for an action film. A sleek sports car speeding away from an explosion in a desert landscape. Warm, intense cinematic color grading with high contrast. Professional film poster style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsSseC-JKhH2JO9lYsUOaewVkvMQ7uuzL5G-3TqSrV0UPKTXHvRjZ05SFPG9AZvCy9UJgJPxn6s4l1DfUbvvbv1CjHQvr84hxzZfdi9b4hDLKwCwFwIBR75lmVzMQTAq5FBu5-aE7vhPlHtG-l4qeQ45bhN3bclTu8KX6rNTccjcj3D9EIuIZ3zbrFYDKEnmWib9_o0cJRxrZXdOhaHm6ApyK11n9jsDNMRblI_9HUrR7wpeNF8IMj"/>
+<!-- Meta info appears below on focus (simulated with CSS hover for demo, would rely on focus in real TV app) -->
+<div class="absolute -bottom-16 left-0 right-0 p-2 bg-surface-container-highest/90 backdrop-blur transition-all duration-300 group-focus:bottom-0 group-hover:bottom-0">
+<h3 class="font-label-sm text-label-sm text-on-surface truncate">Hızlı Kaçış</h3>
+<p class="text-xs text-on-surface-variant">2023 • Aksiyon</p>
+</div>
+</div>
+<!-- Poster Card -->
+<div class="focusable relative w-[180px] aspect-[2/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="A moody, atmospheric movie poster for a detective thriller. A silhouette of a man in a trench coat walking down a foggy, cobblestone street lit by a single gas lamp. Noir aesthetic, deep blues and shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSPsvr-wXrQcxFnvOpBa4N8epH3nJCUV9FKfMxOCaHODBC7x3vQy5wGO9nat7wGjI6pCA05YSIg_Aue98bu5WewHCTsiM5KTwZBFZA1AwRaGLobgjW2Kalz6CHC-0kqbwmHSDpLi5_V7-ZkQ9lopzry9BoOkYjocOcVwB1jKfVKN-D-gGXcKNLTyPjDC70gR1QIFTCZq8pXaneRhMr_l3KC_z6P1Jgv-rHBd0nkNh25BQEM94k4ymT"/>
+<div class="absolute -bottom-16 left-0 right-0 p-2 bg-surface-container-highest/90 backdrop-blur transition-all duration-300 group-focus:bottom-0 group-hover:bottom-0">
+<h3 class="font-label-sm text-label-sm text-on-surface truncate">Gölgedeki Adam</h3>
+<p class="text-xs text-on-surface-variant">2024 • Gerilim</p>
+</div>
+</div>
+<!-- Poster Card -->
+<div class="focusable relative w-[180px] aspect-[2/3] rounded-lg overflow-hidden flex-shrink-0 cursor-pointer group">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="A vibrant, comedic movie poster featuring a chaotic wedding scene. Confetti falling, stylized cartoonish expressions on the actors faces. Bright, high-key lighting with a cheerful color palette of pinks and yellows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt4xpMC5g6Re1puJJKwCb69YCK8kLaZCRa4NP6IPCPct2bRhbOc0oVtx-SYfKAnsZ1KniA-s5IwlVwdVxYO0-thKsbDJ-HOGvVSheG2gZ3xqlD7RxJJATsRlRgSEptkaiNdhiB_FWNcBrAZZQqpHltoajBQaIE7neieRO8HaD_uZPuqMoQ1dIFZoYoOFP9IwHGZk9zq4P9gxAGWU0eODBviCtcGgF-rARqgWDR5dzK9lzX8lsSJV-t"/>
+<div class="absolute -bottom-16 left-0 right-0 p-2 bg-surface-container-highest/90 backdrop-blur transition-all duration-300 group-focus:bottom-0 group-hover:bottom-0">
+<h3 class="font-label-sm text-label-sm text-on-surface truncate">Düğün Dernek</h3>
+<p class="text-xs text-on-surface-variant">2023 • Komedi</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Optional: Inline script to handle basic spatial navigation highlighting for mouse users to preview D-Pad behavior -->
+<script>
+        // Simple script to auto-focus the primary CTA on load, simulating TV boot
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstButton = document.querySelector('[autofocus]');
+            if(firstButton) {
+                firstButton.focus();
+            }
+        });
+    </script>
+</body></html>

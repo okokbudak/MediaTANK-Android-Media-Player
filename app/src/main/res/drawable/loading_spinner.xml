@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Yükleme göstergesi.
+
+  animated-rotate kullanılıyor çünkü bu, Drawable seviyesinde bir animasyon:
+  cihazda "animasyon ölçeği" kapalıyken bile dönmeye devam ediyor. Varsayılan
+  ProgressBar göstergesi ObjectAnimator'a dayandığı için o ayar kapalı olan
+  televizyonlarda donuk görünüyordu.
+-->
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/loading_ring"
+    android:pivotX="50%"
+    android:pivotY="50%" />

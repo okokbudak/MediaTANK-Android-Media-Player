@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MediaTANK</string>
+
+    <string name="browse_title">MediaTANK</string>
+    <string name="row_live">Canlı Kanallar</string>
+    <string name="row_vod">Filmler (VOD)</string>
+    <string name="row_series">Diziler</string>
+    <string name="row_nas">Ağ Klasörü</string>
+    <string name="row_photos">Fotoğraflar</string>
+    <string name="row_settings">Ayarlar</string>
+
+    <string name="badge_live">Canlı</string>
+
+    <string name="settings_languages">Dil Tercihleri</string>
+    <string name="settings_languages_hint">İçerikte bu diller varsa kendiliğinden seçilir.</string>
+    <string name="settings_metadata">Film ve Dizi Bilgisi</string>
+    <string name="settings_metadata_hint">TMDB anahtarı girerseniz özet, afiş, tür, oyuncu ve puan Türkçe olarak çekilir. Ücretsiz anahtar: themoviedb.org → Ayarlar → API</string>
+    <string name="settings_tmdb_key">TMDB anahtarı: %1$s</string>
+    <string name="settings_tmdb_key_none">TMDB anahtarı: tanımlı değil</string>
+    <string name="settings_clear_metadata">Önbelleğe alınan film bilgilerini sil</string>
+    <string name="settings_player">Oynatıcı</string>
+    <string name="settings_sources">Kaynaklar ve Profil</string>
+    <string name="settings_switch_profile">Profil değiştir</string>
+    <string name="settings_audio_language">Ses dili: %1$s</string>
+    <string name="settings_subtitle_language">Altyazı dili: %1$s</string>
+    <string name="settings_engine">Varsayılan motor: %1$s</string>
+
+    <string name="nas_diagnose">Klasörleri sına</string>
+
+    <string name="detail_play">İzle</string>
+    <string name="detail_season">Sezon</string>
+    <string name="detail_add_favorite">☆ Favorilere ekle</string>
+    <string name="detail_remove_favorite">★ Favorilerden çıkar</string>
+    <string name="detail_no_info">Bu içerik için ek bilgi bulunamadı.</string>
+    <string name="detail_mark_watched">☐ İzledim olarak işaretle</string>
+    <string name="detail_unmark_watched">✓ İzlendi</string>
+    <string name="detail_resume">Kaldığı yerden (%1$s)</string>
+    <string name="detail_play_from_start">Baştan izle</string>
+
+    <string name="row_music">Müzik</string>
+    <string name="music_queue">Çalma Sırası</string>
+    <string name="music_sources">Müzik Kaynağı</string>
+    <string name="music_local">USB / Dahili Depolama</string>
+    <string name="music_empty">Bu klasörde müzik yok</string>
+    <string name="music_play_all">Tümünü çal</string>
+
+    <string name="search_hint">Ara…</string>
+    <string name="search_title">Arama</string>
+    <string name="search_empty">Sonuç bulunamadı</string>
+    <string name="search_prompt">Aramak için yazmaya başlayın</string>
+
+    <string name="row_favorites">Favorilerim</string>
+    <string name="photo_slideshow">Slayt gösterisi</string>
+    <string name="photo_of">%1$d / %2$d</string>
+
+    <string name="menu_add_source">Kaynak Ekle</string>
+    <string name="menu_add_m3u">M3U / M3U8 Playlist</string>
+    <string name="menu_add_xtream">Xtream Codes</string>
+    <string name="menu_add_smb">Ağ Klasörü</string>
+    <string name="menu_refresh">Yenile</string>
+    <string name="menu_remove_sources">Tüm kaynakları sil</string>
+
+    <string name="add_source_title">Kaynak Ekle</string>
+    <string name="field_name">Ad (isteğe bağlı)</string>
+    <string name="field_url">Playlist URL (http/https)</string>
+    <string name="field_host">Sunucu (host:port veya http://host:port)</string>
+    <string name="field_username">Kullanıcı adı</string>
+    <string name="field_password">Şifre</string>
+    <string name="field_smb_host">Sunucu adresi (örn. 192.168.1.20)</string>
+    <string name="field_smb_share">Paylaşım adı — boş bırakırsanız tümü listelenir</string>
+    <string name="saved_sources">Kayıtlı Kaynaklar</string>
+    <string name="saved_sources_hint">Düzenlemek için seçin · silmek için uzun basın</string>
+    <string name="no_sources">Kayıtlı kaynak yok.</string>
+    <string name="edit_source_title">Kaynağı Düzenle</string>
+    <string name="btn_new_source">Yeni kaynak</string>
+    <string name="btn_save">Kaydet</string>
+    <string name="btn_cancel">İptal</string>
+
+    <string name="loading">Yükleniyor…</string>
+    <string name="empty_hint">Henüz kaynak yok. Menüden \"Kaynak Ekle\" ile M3U, Xtream veya NAS ekleyin.</string>
+
+    <string name="player_engine_exo">Motor: ExoPlayer</string>
+    <string name="player_engine_vlc">Motor: VLC</string>
+    <string name="track_audio">Ses</string>
+    <string name="track_subtitle">Altyazı</string>
+    <string name="track_off">Kapalı</string>
+    <string name="switch_engine">Oynatıcıyı değiştir (VLC/ExoPlayer)</string>
+</resources>

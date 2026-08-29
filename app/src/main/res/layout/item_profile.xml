@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="24dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/card_frame"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/profile_focus_ring"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/avatar"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/on_surface"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:background="@drawable/bg_pill"
+            tools:text="O" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/Text.Body"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/on_surface"
+        tools:text="Orhan" />
+</LinearLayout>

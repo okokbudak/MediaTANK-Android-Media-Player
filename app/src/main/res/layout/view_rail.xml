@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tek bir yatay ray: başlık + kaydırılan kart listesi. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/card_gap">
+
+    <TextView
+        android:id="@+id/rail_title"
+        style="@style/Text.HeadlineMd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="Canlı TV Kanalları" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rail_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:focusable="false"
+        android:descendantFocusability="afterDescendants"
+        android:scrollbars="none"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp" />
+</LinearLayout>

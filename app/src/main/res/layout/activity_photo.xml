@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:keepScreenOn="true">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
+
+    <ProgressBar
+            style="@style/Spinner"
+            android:id="@+id/progress"
+        
+        android:layout_gravity="center"
+         />
+
+    <!-- Üst bilgi şeridi: dosya adı ve sıra numarası -->
+    <LinearLayout
+        android:id="@+id/info_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#99000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/safe_margin_x"
+        android:paddingEnd="@dimen/safe_margin_x"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:id="@+id/photo_title"
+            style="@style/Text.HeadlineMd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="middle"
+            android:maxLines="1"
+            tools:text="IMG_2043.jpg" />
+
+        <TextView
+            android:id="@+id/photo_counter"
+            style="@style/Text.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            tools:text="3 / 128" />
+
+        <TextView
+            android:id="@+id/slideshow_state"
+            style="@style/Text.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_live_badge"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="@string/photo_slideshow"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <!-- Alt kumanda: döndürme ve slayt gösterisi -->
+    <LinearLayout
+        android:id="@+id/photo_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/safe_margin_y"
+        android:background="@drawable/bg_pill"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/btn_rotate_left"
+            style="@style/PlayerButton"
+            android:contentDescription="Sola döndür"
+            android:src="@drawable/ic_rotate_left" />
+
+        <ImageView
+            android:id="@+id/btn_rotate_right"
+            style="@style/PlayerButton"
+            android:contentDescription="Sağa döndür"
+            android:src="@drawable/ic_rotate_right" />
+
+        <ImageView
+            android:id="@+id/btn_slideshow"
+            style="@style/PlayerButton"
+            android:contentDescription="@string/photo_slideshow"
+            android:src="@drawable/ic_play" />
+
+        <TextView
+            android:id="@+id/photo_hint"
+            style="@style/Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:text="◀ ▶ gezin · GERİ çık" />
+    </LinearLayout>
+</FrameLayout>

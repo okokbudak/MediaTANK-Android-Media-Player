@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  IPTV portalları çoğunlukla düz HTTP ve/veya kendi imzaladığı sertifikalarla çalışır.
+  Bu yüzden cleartext'e izin veriyoruz. Kendi CA'nızı eklemek isterseniz
+  <trust-anchors> bölümüne <certificates src="@raw/my_ca"/> ekleyin.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

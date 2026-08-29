@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layer 2: odak. 2dp birincil renk kenarlık (DESIGN.md "Focus State"). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/surface_container_high" />
+    <corners android:radius="@dimen/radius_card" />
+    <stroke android:width="2dp" android:color="@color/primary" />
+</shape>

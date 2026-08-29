@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 16:9 geniş kart: "İzlemeye Devam Et" ve dizi bölümleri için. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/wide_w"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_gap"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/card_frame"
+        android:layout_width="@dimen/wide_w"
+        android:layout_height="@dimen/wide_h"
+        android:background="@drawable/card_selector"
+        android:clipToOutline="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/app_banner" />
+
+        <!-- Kaldığı yer göstergesi -->
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:max="100"
+            android:progressTint="@color/primary_container"
+            android:visibility="gone"
+            tools:progress="40"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/on_surface"
+        tools:text="Bölüm Adı" />
+</LinearLayout>

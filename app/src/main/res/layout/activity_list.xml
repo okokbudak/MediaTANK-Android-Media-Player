@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NAS gezgini ve dizi bölüm listesi için ortak dikey liste ekranı. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/safe_margin_x"
+    android:paddingEnd="@dimen/safe_margin_x"
+    android:paddingTop="@dimen/safe_margin_y"
+    android:paddingBottom="@dimen/safe_margin_y">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/list_title"
+            style="@style/Text.Display"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="NAS / video" />
+
+        <TextView
+            android:id="@+id/btn_list_view_mode"
+            style="@style/ToolbarChip"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            tools:text="Kılavuz"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/btn_diagnose"
+            style="@style/ToolbarChip"
+            android:text="@string/nas_diagnose"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/list_subtitle"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        tools:text="192.168.1.20 / video" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+        <ProgressBar
+            style="@style/Spinner"
+            android:id="@+id/progress"
+            
+            android:layout_gravity="center"
+            
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/empty"
+            style="@style/Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:text="Bu klasörde video yok" />
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Açık uçlu halka; döndürülünce klasik yükleme göstergesi olur. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:innerRadiusRatio="3"
+    android:thicknessRatio="8"
+    android:useLevel="false">
+    <gradient
+        android:type="sweep"
+        android:startColor="#00ADC6FF"
+        android:centerColor="#66ADC6FF"
+        android:endColor="#FFADC6FF"
+        android:useLevel="false" />
+</shape>
