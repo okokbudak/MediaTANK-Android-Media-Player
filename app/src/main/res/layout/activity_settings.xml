@@ -95,12 +95,24 @@
             android:layout_marginTop="8dp"
             android:text="@string/settings_clear_metadata" />
 
-        <!-- TMDB'nin kullanım şartları bu bildirimi zorunlu kılıyor. -->
+        <!--
+          TMDB'nin kullanım şartları hem logoyu hem bu bildirimi zorunlu kılıyor.
+          Logo resmi SVG'den çevrildi; boyutu değiştirilebilir ama yeniden
+          çizilmemeli veya renkleri değiştirilmemeli.
+        -->
+        <ImageView
+            android:id="@+id/tmdb_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:contentDescription="The Movie Database"
+            android:src="@drawable/ic_tmdb_logo" />
+
         <TextView
             style="@style/Text.Body"
             android:layout_width="520dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="@string/tmdb_attribution"
             android:textSize="@dimen/text_label_sm" />
 

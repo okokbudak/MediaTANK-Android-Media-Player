@@ -26,8 +26,10 @@ class TmdbClient(private val apiKey: String) {
     private data class SearchResponse(val results: List<Result>?) {
         data class Result(
             val id: Int?,
-            val title: String?,          // film
-            val name: String?,           // dizi
+            val title: String?,          // film, language parametresine göre
+            val name: String?,           // dizi, language parametresine göre
+            @SerializedName("original_title") val originalTitle: String?,
+            @SerializedName("original_name") val originalName: String?,
             val overview: String?,
             @SerializedName("poster_path") val posterPath: String?,
             @SerializedName("backdrop_path") val backdropPath: String?,
@@ -100,6 +102,56 @@ class TmdbClient(private val apiKey: String) {
                 ?: match.backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" },
             durationText = runtimeMinutes?.takeIf { it > 0 }?.let { "$it dk" }
         )
+    }
+
+    /** Bir TMDB arama sonucunun ada dair alanları. */
+    data class TitleMatch(
+        /** Türkçe başlık (language=tr-TR ile gelen). */
+        val localized: String?,
+        /** Orijinal başlık — çoğu zaman İngilizce. */
+        val original: String?,
+        val year: String?
+    )
+
+    /**
+     * Sorguyu TMDB'de arar ve eşleşen yapımların başlıklarını döndürür.
+     *
+     * Çapraz dil aramanın temeli: TMDB arama motoru orijinal ve alternatif
+     * başlıkları da tarıyor. "I Swear" yazıldığında filmi buluyor, `language`
+     * parametresi `tr-TR` olduğu için `title` alanını Türkçe döndürüyor
+     * ("Ağzımdan Kaçtı"). Bu Türkçe başlığı yerel katalogla eşleştirerek
+     * kullanıcının bilmediği çeviriyi bulmuş oluyoruz.
+     */
+    @Throws(IOException::class)
+    fun searchTitles(query: String, limit: Int = 8): List<TitleMatch> {
+        val cleaned = query.trim()
+        if (cleaned.length < 3) return emptyList()
+
+        // Film ve dizi ayrı uç noktalar; ikisi de aranıyor.
+        return listOf("movie", "tv").flatMap { kind ->
+            val url = "https://api.themoviedb.org/3/search/$kind".toHttpUrlOrNull()
+                ?.newBuilder()
+                ?.addQueryParameter("api_key", apiKey)
+                ?.addQueryParameter("query", cleaned)
+                ?.addQueryParameter("language", "tr-TR")
+                ?.addQueryParameter("include_adult", "false")
+                ?.build()?.toString() ?: return@flatMap emptyList()
+
+            val body = runCatching { Http.string(Request.Builder().url(url).build()) }
+                .getOrNull() ?: return@flatMap emptyList()
+
+            runCatching { gson.fromJson(body, SearchResponse::class.java) }
+                .getOrNull()?.results.orEmpty()
+                .take(limit)
+                .map { result ->
+                    TitleMatch(
+                        localized = result.title ?: result.name,
+                        original = result.originalTitle ?: result.originalName,
+                        year = (result.releaseDate ?: result.firstAirDate)
+                            ?.take(4)?.takeIf { it.isNotBlank() }
+                    )
+                }
+        }
     }
 
     private fun fetchDetail(kind: String, id: Int): DetailResponse? {

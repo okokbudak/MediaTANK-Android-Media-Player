@@ -8,16 +8,23 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orhan.iptv.R
 import com.orhan.iptv.data.MediaItem
 import com.orhan.iptv.data.MediaKind
 import com.orhan.iptv.data.Repository
+import com.orhan.iptv.data.meta.TmdbClient
 import com.orhan.iptv.player.PlaybackActivity
 import com.orhan.iptv.ui.CardStyle
 import com.orhan.iptv.ui.MediaAdapter
 import com.orhan.iptv.ui.detail.DetailsActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 /**
@@ -36,6 +43,14 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: MediaAdapter
 
     private var scope: Scope = Scope.ALL
+
+    /** Yerel katalogda bulunan sonuçlar; TMDB eşleşmeleri bunlara ekleniyor. */
+    private var localResults: List<MediaItem> = emptyList()
+
+    private var crossLanguageJob: Job? = null
+
+    /** Sorgu → TMDB başlıkları. Aynı sorgu tekrar yazılırsa ağa gidilmiyor. */
+    private val titleCache = HashMap<String, List<TmdbClient.TitleMatch>>()
 
     /** Aranacak havuz. */
     enum class Scope { ALL, LIVE, VOD, SERIES }
@@ -93,6 +108,7 @@ class SearchActivity : AppCompatActivity() {
         if (query.length < MIN_QUERY) {
             adapter.submit(emptyList())
             summary.text = getString(R.string.search_prompt)
+            crossLanguageJob?.cancel()
             return
         }
 
@@ -109,12 +125,68 @@ class SearchActivity : AppCompatActivity() {
             if (byTitle.size >= MAX_RESULTS) break
         }
 
-        val found = (byTitle + byGroup).take(MAX_RESULTS)
-        adapter.submit(found)
-        summary.text = if (found.isEmpty()) {
+        localResults = (byTitle + byGroup).take(MAX_RESULTS)
+        adapter.submit(localResults)
+        summary.text = if (localResults.isEmpty()) {
             getString(R.string.search_empty)
         } else {
-            "${found.size} sonuç" + if (found.size >= MAX_RESULTS) " (ilk $MAX_RESULTS)" else ""
+            "${localResults.size} sonuç" +
+                if (localResults.size >= MAX_RESULTS) " (ilk $MAX_RESULTS)" else ""
+        }
+
+        scheduleCrossLanguageSearch(rawQuery.trim())
+    }
+
+    /**
+     * Yabancı adla arama.
+     *
+     * Katalogdaki filmlerin çoğu Türkçe adla listeleniyor; kullanıcı orijinal
+     * adı ("I Swear") yazdığında yerel arama bulamıyor. TMDB arama motoru
+     * orijinal ve alternatif başlıkları da tarayıp sonucun Türkçe adını
+     * döndürdüğü için ("Ağzımdan Kaçtı"), o adı katalogda arayarak eşleşmeyi
+     * kuruyoruz.
+     *
+     * Her tuşta istek atmamak için gecikmeli çalışıyor; sonuçlar sorgu başına
+     * önbelleğe alınıyor.
+     */
+    private fun scheduleCrossLanguageSearch(rawQuery: String) {
+        crossLanguageJob?.cancel()
+
+        val apiKey = Repository.tmdbApiKey()
+        if (apiKey.isBlank() || rawQuery.length < MIN_TMDB_QUERY) return
+
+        crossLanguageJob = lifecycleScope.launch {
+            delay(TMDB_DEBOUNCE_MS)
+
+            val titles = titleCache[rawQuery] ?: withContext(Dispatchers.IO) {
+                runCatching { TmdbClient(apiKey).searchTitles(rawQuery) }.getOrDefault(emptyList())
+            }.also { titleCache[rawQuery] = it }
+
+            if (titles.isEmpty()) return@launch
+
+            // TMDB'nin döndürdüğü her başlığı katalogda ara; zaten bulunmuş
+            // olanları tekrar ekleme.
+            val alreadyFound = localResults.mapTo(HashSet()) { it.id }
+            val pool = pool()
+            val extra = ArrayList<MediaItem>()
+
+            for (match in titles) {
+                for (candidate in listOfNotNull(match.localized, match.original)) {
+                    val needle = normalize(candidate)
+                    if (needle.length < MIN_QUERY) continue
+                    pool.asSequence()
+                        .filter { it.id !in alreadyFound && normalize(it.title).contains(needle) }
+                        .take(5)
+                        .forEach {
+                            alreadyFound += it.id
+                            extra += it
+                        }
+                }
+            }
+
+            if (extra.isEmpty()) return@launch
+            adapter.submit(localResults + extra)
+            summary.text = "${localResults.size} sonuç  ·  ${extra.size} yabancı ad eşleşmesi"
         }
     }
 
@@ -160,6 +232,9 @@ class SearchActivity : AppCompatActivity() {
         private const val MIN_QUERY = 2
         /** TV'de binlerce satırı kaydırmak kullanışsız; ilk eşleşmeler yeterli. */
         private const val MAX_RESULTS = 200
+        /** TMDB araması için en az uzunluk ve tuşlar arası bekleme. */
+        private const val MIN_TMDB_QUERY = 3
+        private const val TMDB_DEBOUNCE_MS = 600L
 
         fun start(context: Context, scope: Scope) {
             context.startActivity(
