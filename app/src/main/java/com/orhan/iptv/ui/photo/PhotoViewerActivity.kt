@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.LruCache
+import android.view.GestureDetector
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
+import kotlin.math.abs
 
 /**
  * NAS albümleri için tam ekran fotoğraf görüntüleyici.
@@ -50,6 +53,11 @@ class PhotoViewerActivity : AppCompatActivity() {
     private var index = 0
     private var loadJob: Job? = null
     private var slideshow = false
+
+    private lateinit var gestureDetector: GestureDetector
+
+    /** Başlayan dokunuşun jest algılayıcıya gidip gitmeyeceği (panel üstündekiler gitmez). */
+    private var gestureArmed = false
 
     private val handler = Handler(Looper.getMainLooper())
     private val hideHint = Runnable { photoControls.visibility = View.GONE }
@@ -92,8 +100,55 @@ class PhotoViewerActivity : AppCompatActivity() {
         findViewById<View>(R.id.btn_rotate_right).setOnClickListener { rotateBy(90f) }
         findViewById<View>(R.id.btn_slideshow).setOnClickListener { toggleSlideshow() }
 
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent) = true
+
+            // Dokunuş: panel gizliyse aç, açıksa kapat.
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                if (photoControls.visibility == View.VISIBLE) {
+                    handler.removeCallbacks(hideHint)
+                    photoControls.visibility = View.GONE
+                } else {
+                    showControls()
+                }
+                return true
+            }
+
+            // Yatay kaydırma: sola sürükle sonraki, sağa sürükle önceki fotoğraf.
+            override fun onFling(
+                e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float
+            ): Boolean {
+                if (e1 == null || photos.size < 2) return false
+                val dx = e2.x - e1.x
+                val dy = e2.y - e1.y
+                val minDistance = SWIPE_MIN_DP * resources.displayMetrics.density
+                if (abs(dx) < minDistance || abs(dx) < abs(dy) * 1.5f) return false
+                if (abs(velocityX) < SWIPE_MIN_VELOCITY) return false
+
+                show(if (dx < 0) (index + 1) % photos.size else (index - 1 + photos.size) % photos.size)
+                return true
+            }
+        })
+
         show(index)
         handler.postDelayed(hideHint, HINT_TIMEOUT_MS)
+    }
+
+    /**
+     * Dokunuşları panelin dışında jest algılayıcıya iletir. Olay tüketilmez;
+     * panel düğmeleri normal çalışmaya devam eder.
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+            val where = IntArray(2)
+            photoControls.getLocationOnScreen(where)
+            val onPanel = photoControls.visibility == View.VISIBLE &&
+                ev.rawX >= where[0] && ev.rawX <= where[0] + photoControls.width &&
+                ev.rawY >= where[1] && ev.rawY <= where[1] + photoControls.height
+            gestureArmed = !onPanel
+        }
+        if (gestureArmed) gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
     /**
@@ -317,6 +372,9 @@ class PhotoViewerActivity : AppCompatActivity() {
         private const val EXTRA_INDEX = "index"
         private const val SLIDESHOW_INTERVAL_MS = 5_000L
         private const val HINT_TIMEOUT_MS = 4_000L
+        /** Yatay kaydırmanın sayılması için en az yol (dp) ve hız (px/sn). */
+        private const val SWIPE_MIN_DP = 80
+        private const val SWIPE_MIN_VELOCITY = 400f
         /** Üç tam kare için yeterli; TV'lerde uygulama yığını dar. */
         private const val CACHE_BYTES = 48 * 1024 * 1024
 

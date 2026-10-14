@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.GestureDetector
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -61,6 +63,12 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
 
     /** Tercih edilen diller yalnız bir kez uygulanmalı. */
     private var languagesApplied = false
+
+    /** Dokunmatik jestler: tek dokunuş paneli açıp kapatır, çift dokunuş sarar. */
+    private lateinit var gestureDetector: GestureDetector
+
+    /** Başlayan dokunuşun jest algılayıcıya gidip gitmeyeceği (panel üstündekiler gitmez). */
+    private var gestureArmed = false
 
     private val handler = Handler(Looper.getMainLooper())
     private val hideControls = Runnable { controls.visibility = View.GONE }
@@ -122,14 +130,79 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
         findViewById<View>(R.id.btn_engine).setOnClickListener { switchEngine() }
 
         seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(bar: SeekBar, progress: Int, fromUser: Boolean) = Unit
-            override fun onStartTrackingTouch(bar: SeekBar) { userIsSeeking = true }
+            override fun onProgressChanged(bar: SeekBar, progress: Int, fromUser: Boolean) {
+                // Çubuk sürüklenirken panel 5 sn dolunca kapanmasın.
+                if (fromUser) keepControlsAlive()
+            }
+            override fun onStartTrackingTouch(bar: SeekBar) {
+                userIsSeeking = true
+                keepControlsAlive()
+            }
             override fun onStopTrackingTouch(bar: SeekBar) {
                 userIsSeeking = false
                 val duration = engine?.durationMs() ?: -1L
                 if (duration > 0) engine?.seekTo(duration * bar.progress / 1000)
+                keepControlsAlive()
             }
         })
+
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent) = true
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                toggleControls()
+                return true
+            }
+
+            // Çift dokunuş: sol üçte bir geri, sağ üçte bir ileri, orta oynat/duraklat.
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                val third = videoContainer.width / 3f
+                when {
+                    e.x < third -> seekBy(-SEEK_STEP_MS)
+                    e.x > third * 2 -> seekBy(SEEK_STEP_MS)
+                    else -> togglePlayPause()
+                }
+                return true
+            }
+        })
+    }
+
+    /**
+     * Dokunuşları panelin dışında jest algılayıcıya da iletir.
+     *
+     * Etkinlik düzeyinde dinliyoruz: video yüzeyi (VLC/ExoPlayer) dokunuşu
+     * kendisi tüketebiliyor. Panel görünürken onun üstüne düşen dokunuşlar
+     * atlanıyor, yoksa bir düğmeye basmak paneli de kapatırdı. Olay hiçbir
+     * zaman tüketilmiyor; düğmeler ve arama çubuğu normal çalışmaya devam eder.
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+            gestureArmed = !(controls.visibility == View.VISIBLE && isOnScreenInside(controls, ev))
+        }
+        if (gestureArmed) gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun isOnScreenInside(view: View, ev: MotionEvent): Boolean {
+        val where = IntArray(2)
+        view.getLocationOnScreen(where)
+        return ev.rawX >= where[0] && ev.rawX <= where[0] + view.width &&
+            ev.rawY >= where[1] && ev.rawY <= where[1] + view.height
+    }
+
+    private fun toggleControls() {
+        if (controls.visibility == View.VISIBLE) {
+            handler.removeCallbacks(hideControls)
+            controls.visibility = View.GONE
+        } else {
+            showControls()
+        }
+    }
+
+    /** Paneli açık tutar; odağı düğmeye taşımadan yalnızca kapanma sayacını yeniler. */
+    private fun keepControlsAlive() {
+        handler.removeCallbacks(hideControls)
+        handler.postDelayed(hideControls, CONTROLS_TIMEOUT_MS)
     }
 
     // --- Motor yönetimi ---
