@@ -141,6 +141,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             tools:text="Karışık: kapalı · Tekrar: liste" />
+
+        <!-- Ses: yalnız dokunmatik ekranlarda gösterilir -->
+        <LinearLayout
+            android:id="@+id/volume_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/btn_volume"
+                style="@style/PlayerButton"
+                android:contentDescription="@string/touch_mute"
+                android:src="@drawable/ic_volume_up" />
+
+            <SeekBar
+                android:id="@+id/volume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/touch_volume"
+                android:progressTint="@color/primary"
+                android:thumbTint="@color/primary" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Sağ: çalma sırası -->

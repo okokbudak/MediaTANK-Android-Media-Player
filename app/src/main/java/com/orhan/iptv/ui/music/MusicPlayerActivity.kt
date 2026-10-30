@@ -21,6 +21,7 @@ import com.orhan.iptv.data.Repository
 import com.orhan.iptv.player.ExoEngine
 import com.orhan.iptv.player.PlayerEngine
 import com.orhan.iptv.player.VlcEngine
+import com.orhan.iptv.player.VolumeControl
 import java.util.concurrent.TimeUnit
 
 /** Sıranın sonuna gelince ne olacağı. */
@@ -54,6 +55,8 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
 
     private var engine: PlayerEngine? = null
 
+    private var volumeControl: VolumeControl? = null
+
     /** Motorun bağlandığı görünüm; düzende gerçekten yer alıyor. */
     private lateinit var engineContainer: android.widget.FrameLayout
 
@@ -82,6 +85,9 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music_player)
+        com.orhan.iptv.ui.TouchNav.install(this)
+        // Donanım ses tuşları, hiçbir şey çalmıyorken bile medya sesini ayarlasın.
+        volumeControlStream = android.media.AudioManager.STREAM_MUSIC
 
         tracks = Repository.musicQueue
         val startIndex = intent.getIntExtra(EXTRA_INDEX, 0)
@@ -127,6 +133,16 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
                 if (duration > 0) engine?.seekTo(duration * bar.progress / 1000)
             }
         })
+
+        // Ses çubuğu yalnız dokunmatik ekranda; televizyonda kumandanın ses tuşu yeter.
+        if (resources.getBoolean(R.bool.is_touch)) {
+            findViewById<View>(R.id.volume_row).visibility = View.VISIBLE
+            volumeControl = VolumeControl(
+                this,
+                findViewById(R.id.volume),
+                findViewById(R.id.btn_volume)
+            )
+        }
 
         renderModes()
         btnPlayPause.requestFocus()
@@ -280,6 +296,8 @@ class MusicPlayerActivity : AppCompatActivity(), PlayerEngine.Listener {
         val position = e.positionMs()
 
         timeCurrent.text = formatTime(position)
+        // Donanım ses tuşlarıyla değişen seviyeyi çubuğa yansıt.
+        volumeControl?.refresh()
         if (duration > 0 && !userIsSeeking) {
             seek.progress = (position * 1000 / duration).toInt()
         }

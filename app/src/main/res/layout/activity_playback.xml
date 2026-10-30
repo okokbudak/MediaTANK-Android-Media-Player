@@ -50,14 +50,31 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/now_title"
-            style="@style/Text.HeadlineMd"
+        <!-- Üst satır: geri düğmesi (yalnız dokunmatik) + başlık -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="Film Adı" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                style="@style/PlayerButton"
+                android:contentDescription="@string/touch_back"
+                android:src="@drawable/ic_back"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/now_title"
+                style="@style/Text.HeadlineMd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Film Adı" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -161,6 +178,27 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
                 tools:text="Motor: VLC" />
+
+            <!-- Ses: yalnız dokunmatik. Televizyon kendi kumandasının ses tuşunu kullanır. -->
+            <ImageView
+                android:id="@+id/btn_volume"
+                style="@style/PlayerButton"
+                android:layout_marginStart="14dp"
+                android:contentDescription="@string/touch_mute"
+                android:src="@drawable/ic_volume_up"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <SeekBar
+                android:id="@+id/volume"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/touch_volume"
+                android:progressTint="@color/primary"
+                android:thumbTint="@color/primary"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

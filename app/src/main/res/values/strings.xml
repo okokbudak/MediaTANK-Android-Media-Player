@@ -56,6 +56,14 @@
     <string name="row_favorites">Favorilerim</string>
     <string name="photo_slideshow">Slayt gösterisi</string>
     <string name="photo_of">%1$d / %2$d</string>
+    <string name="photo_hint_touch">Kaydırarak gezin · dokununca panel</string>
+
+    <!-- Dokunmatik kontroller -->
+    <string name="touch_back">Geri</string>
+    <string name="touch_volume">Ses</string>
+    <string name="touch_mute">Sesi kapat / aç</string>
+    <string name="touch_prev_photo">Önceki fotoğraf</string>
+    <string name="touch_next_photo">Sonraki fotoğraf</string>
 
     <string name="menu_add_source">Kaynak Ekle</string>
     <string name="menu_add_m3u">M3U / M3U8 Playlist</string>

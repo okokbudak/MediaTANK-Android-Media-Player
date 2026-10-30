@@ -54,6 +54,7 @@ class MusicBrowseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         titleView = findViewById(R.id.list_title)
         subtitleView = findViewById(R.id.list_subtitle)

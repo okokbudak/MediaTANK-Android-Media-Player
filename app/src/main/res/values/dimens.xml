@@ -13,6 +13,13 @@
     <dimen name="gutter">8dp</dimen>
     <dimen name="card_gap">10dp</dimen>
 
+    <!--
+      Dokunma hedefi alt sınırı. Kumandada 0 (içerik kadar); dokunmatik
+      ekranlarda values-finger 48dp yapıyor — Android'in önerdiği en küçük boy.
+    -->
+    <dimen name="touch_min_height">0dp</dimen>
+    <dimen name="player_button_size">44dp</dimen>
+
     <dimen name="radius_card">14dp</dimen>
     <dimen name="radius_modal">20dp</dimen>
 

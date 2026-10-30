@@ -57,6 +57,7 @@ class AddSourceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_source)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         screenTitle = findViewById(R.id.screen_title)
         typeM3u = findViewById(R.id.type_m3u)

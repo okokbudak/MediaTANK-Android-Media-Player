@@ -30,6 +30,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         audioButton = findViewById(R.id.btn_audio_language)
         subtitleButton = findViewById(R.id.btn_subtitle_language)

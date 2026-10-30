@@ -67,6 +67,7 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         @Suppress("DEPRECATION")
         item = (intent.getSerializableExtra(EXTRA_ITEM) as? MediaItem) ?: run {

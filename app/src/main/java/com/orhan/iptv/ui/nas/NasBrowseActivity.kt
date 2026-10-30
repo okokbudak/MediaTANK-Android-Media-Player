@@ -61,6 +61,7 @@ class NasBrowseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         @Suppress("DEPRECATION")
         source = (intent.getSerializableExtra(EXTRA_SOURCE) as? Source) ?: run {

@@ -58,6 +58,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        com.orhan.iptv.ui.TouchNav.install(this)
 
         scope = runCatching {
             Scope.valueOf(intent.getStringExtra(EXTRA_SCOPE) ?: Scope.ALL.name)

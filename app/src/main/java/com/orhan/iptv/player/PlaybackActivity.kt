@@ -2,9 +2,11 @@ package com.orhan.iptv.player
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -24,6 +26,7 @@ import com.orhan.iptv.data.MediaKind
 import com.orhan.iptv.data.Repository
 import com.orhan.iptv.ui.settings.Languages
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 /**
  * Oynatma ekranı.
@@ -70,6 +73,21 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
     /** Başlayan dokunuşun jest algılayıcıya gidip gitmeyeceği (panel üstündekiler gitmez). */
     private var gestureArmed = false
 
+    private var volumeControl: VolumeControl? = null
+
+    /**
+     * Sürükleme jestinin türü; parmak ekrana değdiği sürece ilk harekette
+     * seçilir ve değişmez: yatay giden bir sürükleme ortada dikeye dönse bile
+     * sarma olarak kalır, aksi halde ses ve konum karışırdı.
+     */
+    private enum class DragMode { NONE, SEEK, VOLUME, BRIGHTNESS, IGNORED }
+
+    private var dragMode = DragMode.NONE
+    private var dragStartPosition = 0L
+    private var dragTargetPosition = -1L
+    private var dragStartVolume = 0
+    private var dragStartBrightness = 0.5f
+
     private val handler = Handler(Looper.getMainLooper())
     private val hideControls = Runnable { controls.visibility = View.GONE }
 
@@ -83,6 +101,8 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playback)
+        // Donanım ses tuşları medya sesini ayarlasın (sistem zili yerine).
+        volumeControlStream = AudioManager.STREAM_MUSIC
 
         queue = Repository.queue
         queueIndex = intent.getIntExtra(EXTRA_INDEX, -1)
@@ -129,6 +149,21 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
         findViewById<View>(R.id.btn_subtitle).setOnClickListener { showSubtitleMenu() }
         findViewById<View>(R.id.btn_engine).setOnClickListener { switchEngine() }
 
+        // Ses: nesne her zaman var (jestler de kullanıyor); düğme ve çubuk yalnız
+        // dokunmatik ekranda gösteriliyor, televizyonda kumandanın ses tuşu yeter.
+        val volumeBar = findViewById<SeekBar>(R.id.volume)
+        val volumeButton = findViewById<ImageView>(R.id.btn_volume)
+        volumeControl = VolumeControl(this, volumeBar, volumeButton) { keepControlsAlive() }
+
+        if (resources.getBoolean(R.bool.is_touch)) {
+            volumeBar.visibility = View.VISIBLE
+            volumeButton.visibility = View.VISIBLE
+            findViewById<View>(R.id.btn_back).apply {
+                visibility = View.VISIBLE
+                setOnClickListener { finish() }
+            }
+        }
+
         seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(bar: SeekBar, progress: Int, fromUser: Boolean) {
                 // Çubuk sürüklenirken panel 5 sn dolunca kapanmasın.
@@ -164,7 +199,94 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
                 }
                 return true
             }
+
+            /**
+             * Sürükleme: yatay = sar, sağ yarıda dikey = ses, sol yarıda dikey = parlaklık.
+             * Sarma parmak kalkınca uygulanır; sürüklerken yalnızca hedef gösterilir.
+             */
+            override fun onScroll(
+                e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float
+            ): Boolean {
+                if (e1 == null) return false
+                val dx = e2.x - e1.x
+                val dy = e2.y - e1.y
+
+                if (dragMode == DragMode.NONE) {
+                    dragMode = when {
+                        abs(dx) > abs(dy) ->
+                            if ((engine?.durationMs() ?: -1L) > 0) DragMode.SEEK else DragMode.IGNORED
+                        e1.x > videoContainer.width / 2f -> DragMode.VOLUME
+                        else -> DragMode.BRIGHTNESS
+                    }
+                    beginDrag()
+                }
+                applyDrag(dx, dy)
+                return true
+            }
         })
+    }
+
+    private fun beginDrag() {
+        dragStartPosition = engine?.positionMs() ?: 0L
+        dragTargetPosition = -1L
+        dragStartVolume = volumeControl?.level() ?: 0
+        dragStartBrightness = currentBrightness()
+    }
+
+    private fun applyDrag(dx: Float, dy: Float) {
+        val width = videoContainer.width.coerceAtLeast(1)
+        val height = videoContainer.height.coerceAtLeast(1)
+
+        when (dragMode) {
+            DragMode.SEEK -> {
+                val duration = engine?.durationMs() ?: return
+                val delta = (dx / width * SEEK_SWIPE_SPAN_MS).toLong()
+                dragTargetPosition = (dragStartPosition + delta).coerceIn(0L, duration)
+                showStatus("${formatTime(dragTargetPosition)}  (${"%+d".format(delta / 1000)} sn)")
+            }
+
+            DragMode.VOLUME -> {
+                val volume = volumeControl ?: return
+                // Ekran boyunca tam kaydırma, ses aralığının büyük kısmını gezer.
+                val change = (-dy / height * volume.max() * VOLUME_SWIPE_RANGE).toInt()
+                volume.set(dragStartVolume + change)
+                showStatus("Ses %${volume.percent()}")
+            }
+
+            DragMode.BRIGHTNESS -> {
+                val value = (dragStartBrightness - dy / height * BRIGHTNESS_SWIPE_RANGE)
+                    .coerceIn(0.02f, 1f)
+                setBrightness(value)
+                showStatus("Parlaklık %${(value * 100).toInt()}")
+            }
+
+            DragMode.NONE, DragMode.IGNORED -> Unit
+        }
+    }
+
+    /** Parmak kalktı: bekleyen sarmayı uygula, jest durumunu sıfırla. */
+    private fun finishDrag() {
+        if (dragMode == DragMode.SEEK && dragTargetPosition >= 0) {
+            engine?.seekTo(dragTargetPosition)
+        }
+        dragMode = DragMode.NONE
+        dragTargetPosition = -1L
+    }
+
+    /** Bu pencerede ayarlanmış parlaklık, yoksa sistem parlaklığı, yoksa yarım. */
+    private fun currentBrightness(): Float {
+        val inWindow = window.attributes.screenBrightness
+        if (inWindow >= 0f) return inWindow
+        return runCatching {
+            Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS) / 255f
+        }.getOrDefault(0.5f)
+    }
+
+    /** Yalnız bu ekranın parlaklığını değiştirir; ekrandan çıkınca sistem değerine döner. */
+    private fun setBrightness(value: Float) {
+        val attributes = window.attributes
+        attributes.screenBrightness = value
+        window.attributes = attributes
     }
 
     /**
@@ -180,7 +302,11 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
             gestureArmed = !(controls.visibility == View.VISIBLE && isOnScreenInside(controls, ev))
         }
         if (gestureArmed) gestureDetector.onTouchEvent(ev)
-        return super.dispatchTouchEvent(ev)
+        val handled = super.dispatchTouchEvent(ev)
+        if (ev.actionMasked == MotionEvent.ACTION_UP || ev.actionMasked == MotionEvent.ACTION_CANCEL) {
+            finishDrag()
+        }
+        return handled
     }
 
     private fun isOnScreenInside(view: View, ev: MotionEvent): Boolean {
@@ -409,6 +535,8 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
 
     private fun showControls() {
         controls.visibility = View.VISIBLE
+        // Donanım ses tuşlarıyla değişmiş olabilir.
+        volumeControl?.refresh()
         if (!controls.hasFocus()) btnPlayPause.requestFocus()
         handler.removeCallbacks(hideControls)
         handler.postDelayed(hideControls, CONTROLS_TIMEOUT_MS)
@@ -560,6 +688,11 @@ class PlaybackActivity : AppCompatActivity(), PlayerEngine.Listener {
         private const val EXTRA_INDEX = "index"
         private const val CONTROLS_TIMEOUT_MS = 5_000L
         private const val SEEK_STEP_MS = 10_000L
+        /** Ekran genişliği boyunca tam bir yatay sürükleme bu kadar sarar. */
+        private const val SEEK_SWIPE_SPAN_MS = 120_000L
+        /** Ekran yüksekliği boyunca tam dikey sürükleme, ses aralığının bu katını gezer. */
+        private const val VOLUME_SWIPE_RANGE = 1.2f
+        private const val BRIGHTNESS_SWIPE_RANGE = 1.2f
         private const val SEEK_STEP_LONG_MS = 60_000L
 
         /** Tek bir öğeyi oynatır; önceki/sonraki devre dışı kalır. */

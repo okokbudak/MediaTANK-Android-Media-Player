@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tablet (ve geniş yatay telefon): geniş ekran VE parmakla dokunma.
+
+  values-w600dp televizyona göre ayarlı: gövde yazısı 9sp, etiket 7sp, çünkü
+  3 metreden okunuyor ve ekran 960dp genişliğinde. Elde, 40 cm'den bakılan bir
+  tablette aynı boyutlar okunmayacak kadar küçük kalıyor. Burada yazılar
+  büyütülüyor, televizyonun 40dp'lik taşma güvenli kenar boşluğu (overscan)
+  ise tablette gereksiz olduğu için daraltılıyor.
+
+  Televizyon dokunmatik olmadığı için bu klasöre hiç girmez.
+-->
+<resources>
+    <dimen name="safe_margin_x">28dp</dimen>
+    <dimen name="safe_margin_y">20dp</dimen>
+
+    <dimen name="sidebar_width">190dp</dimen>
+    <dimen name="category_width">240dp</dimen>
+
+    <dimen name="text_display_lg">30sp</dimen>
+    <dimen name="text_headline_lg">22sp</dimen>
+    <dimen name="text_headline_md">18sp</dimen>
+    <dimen name="text_title_lg">15sp</dimen>
+    <dimen name="text_body_lg">16sp</dimen>
+    <dimen name="text_body_md">15sp</dimen>
+    <dimen name="text_label_sm">12sp</dimen>
+</resources>

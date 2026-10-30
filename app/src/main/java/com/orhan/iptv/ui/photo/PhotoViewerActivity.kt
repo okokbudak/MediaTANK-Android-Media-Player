@@ -100,6 +100,30 @@ class PhotoViewerActivity : AppCompatActivity() {
         findViewById<View>(R.id.btn_rotate_right).setOnClickListener { rotateBy(90f) }
         findViewById<View>(R.id.btn_slideshow).setOnClickListener { toggleSlideshow() }
 
+        // Dokunmatik ekran: geri düğmesi ve önceki/sonraki okları. Kumandada bunlar
+        // gizli kalır; yön tuşları zaten gezdiriyor ve odak sırası değişmez.
+        if (resources.getBoolean(R.bool.is_touch)) {
+            findViewById<View>(R.id.btn_back).apply {
+                visibility = View.VISIBLE
+                setOnClickListener { finish() }
+            }
+            findViewById<View>(R.id.btn_prev_photo).apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    show((index - 1 + photos.size) % photos.size)
+                    showControls()
+                }
+            }
+            findViewById<View>(R.id.btn_next_photo).apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    show((index + 1) % photos.size)
+                    showControls()
+                }
+            }
+            findViewById<TextView>(R.id.photo_hint).setText(R.string.photo_hint_touch)
+        }
+
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDown(e: MotionEvent) = true
 

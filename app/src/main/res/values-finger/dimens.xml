@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Parmakla dokunulan ekranlar (telefon, tablet).
+
+  Televizyon için ayarlı 44dp'lik düğmeler parmakla isabet ettirmek için
+  küçük; Android tasarım yönergesi dokunma hedefi için en az 48dp ister.
+-->
+<resources>
+    <dimen name="touch_min_height">48dp</dimen>
+    <dimen name="player_button_size">52dp</dimen>
+</resources>
