@@ -72,5 +72,5 @@ haklarına sahip olmak kullanıcının sorumluluğundadır.
 
 ## Tasarım
 
-Arayüzün görsel dili (`design-ref/cinematic_pulse/DESIGN.md`) proje için
-üretilmiş bir tasarım sistemidir. Uygulama simgesi ve afişi projeye özgüdür.
+Arayüzün görsel dili ("Cinematic Pulse") proje için üretilmiş bir tasarım
+sistemidir. Uygulama simgesi ve afişi projeye özgüdür.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Cinematic Pulse paleti (design-ref/cinematic_pulse/DESIGN.md) -->
+<!-- Cinematic Pulse paleti -->
 <resources>
     <color name="background">#131313</color>
     <color name="surface">#131313</color>

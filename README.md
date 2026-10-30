@@ -226,8 +226,7 @@ ui/
   settings/          Dil, motor, TMDB anahtarı, kaynaklar
 ```
 
-Görsel dil `design-ref/cinematic_pulse/DESIGN.md` dosyasındaki **Cinematic
-Pulse** sistemine göre: `#131313` zemin, `#ADC6FF` odak rengi, 16dp köşe
+Görsel dil **Cinematic Pulse** tasarım sistemine göre: `#131313` zemin, `#ADC6FF` odak rengi, 16dp köşe
 yarıçapı, odakta 1.1 ölçek. Televizyonda 40dp/30dp overscan güvenli alan
 kullanılır; tablette kenar boşlukları daha dardır.
 
