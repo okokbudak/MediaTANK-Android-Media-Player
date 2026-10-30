@@ -1,23 +1,29 @@
 # MediaTANK
 
-Sony Bravia (Android TV 9) için hepsi bir arada medya oynatıcı: IPTV canlı
+Android TV, tablet ve telefon için hepsi bir arada medya oynatıcı: IPTV canlı
 yayın, film, dizi, ağ klasöründeki video ve fotoğraflar, USB ve NAS'taki müzik
-— profil desteğiyle.
+— profil desteğiyle. Aynı uygulama televizyonda kumandayla, tablet ve telefonda
+dokunmatik olarak kullanılır.
 
 Kişisel kullanım için yazıldı, mağazaya yayınlanmıyor ve içerik barındırmıyor.
 Playlist, abonelik ve dosyaları kullanıcı kendisi sağlar.
 
-## Hedef donanım
+## Desteklenen cihazlar
+
+Tek bir APK hepsinde çalışır. Arayüz, cihazın ekranına ve dokunmatik olup
+olmadığına göre kendini ayarlar: televizyonda uzaktan okunacak büyüklükte ve
+kumanda odağına göre, tablette ve telefonda dokunmaya uygun boyutta.
 
 | | |
 |---|---|
-| TV | Sony Bravia `BRAVIA_ATV3_4K_EU` |
-| Android | 9 (API 28), güvenlik yaması 5 Ocak 2022 |
-| Çekirdek | 4.9.125 |
-| ABI | armeabi-v7a |
-| NAS | Synology DS509+ / DSM 4.2 (SMB1 + SMB2) |
+| Android | 5.0 ve üzeri (`minSdk 21`, `targetSdk 34`) |
+| İşlemci | armeabi-v7a ve arm64-v8a |
+| Televizyon | Android TV; kumandayla tam kullanım |
+| Tablet / telefon | Dokunmatik: geri düğmesi, ses çubuğu, kaydırma jestleri |
 
-`minSdk 21` ile derleniyor.
+Denendiği cihazlar: Sony Bravia `BRAVIA_ATV3_4K_EU` (Android 9), Lenovo tablet
+(Android 16), Android TV ve telefon emülatörleri. NAS tarafında Synology
+DS509+ / DSM 4.2 (yalnız SMB1) ile test edildi; SMB2/3 de desteklenir.
 
 ## Özellikler
 
@@ -49,10 +55,16 @@ slayt gösterisi).
 **Müzik çalar.** NAS klasörleri ve USB için ayrı sekme; çalma sırası, karışık,
 tekrar.
 
-**Kumanda.** Medya tuşları, CH +/−, AUDIO, SUBTITLE, renkli tuşlar, GUIDE,
-ACTION MENU ve rakam tuşları bağlı.
+**Kumanda (televizyon).** Medya tuşları, CH +/−, AUDIO, SUBTITLE, renkli
+tuşlar, GUIDE, ACTION MENU ve rakam tuşları bağlı.
+
+**Dokunmatik (tablet ve telefon).** Her ekranın üstünde "Geri" düğmesi;
+oynatıcıda ses çubuğu ve kaydırma jestleri; fotoğraflarda kaydırarak gezinme.
+Ayrıntı için aşağıdaki [Dokunmatik](#dokunmatik-tablet-ve-telefon) bölümü.
 
 ## Kurulum
+
+Hazır APK için [Releases](../../releases) sayfasına bakın.
 
 Gereken: JDK 17, Android SDK 34.
 
@@ -103,7 +115,7 @@ imzalanır. Böyle bir APK kurulup denenebilir ama dağıtılamaz.
 `.jks` dosyasını ve parolasını kaybetmeyin: Play Store'a yüklenmiş bir
 uygulamanın güncellemesi yalnız aynı anahtarla imzalanabiliyor.
 
-### TV'ye yükleme
+### Televizyona yükleme
 
 TV'de Ayarlar → Cihaz Tercihleri → Hakkında → *Yapı* satırına 7 kez basıp
 geliştirici seçeneklerini açın, ardından **USB hata ayıklama**yı etkinleştirin.
@@ -118,7 +130,30 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 İlk bağlantıda TV ekranındaki yetkilendirme penceresini onaylayın.
 
-## Kumanda
+### Tablete veya telefona yükleme
+
+Android 11 ve üzerinde **Geliştirici seçenekleri → Kablosuz hata ayıklama**
+açılır. İlk seferde bir kez eşleştirilir (**Eşleme kodu ile cihazı eşle**
+penceresindeki port ve kodla):
+
+```bash
+adb pair CIHAZ_IP:ESLESTIRME_PORTU
+```
+
+Sonra, kablosuz hata ayıklama ana ekranında yazan **bağlantı** portuyla
+(eşleştirme portundan farklıdır ve her açılışta değişir) bağlanıp kurulur:
+
+```bash
+adb connect CIHAZ_IP:BAGLANTI_PORTU
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+Adb kullanmak istemezseniz [Releases](../../releases) sayfasından APK'yı
+cihaza indirip dokunarak da kurabilirsiniz ("bilinmeyen kaynaklardan yükleme"
+izni gerekir). Daha önce **hata ayıklama anahtarıyla** kurulmuş bir sürüm,
+yayın anahtarıyla imzalı sürümün üzerine kurulamaz; önce kaldırılmalıdır.
+
+## Kumanda (televizyon)
 
 **Ana ekran** — ◀▶▲▼ gezinme, OK aç, **uzun bas** favorilere ekle/çıkar,
 kırmızı tuş arama, yeşil görünüm, sarı sıralama, mavi ayarlar.
@@ -128,6 +163,38 @@ kendi medya tuşları. AUDIO ses kanalı, SUBTITLE altyazı, 0–9 filmin yüzde
 atlar. Panel kapalıyken yön tuşları yalnız paneli açar.
 
 **Fotoğraf** — ◀▶ gezinme, OK slayt gösterisi, ▲▼ döndürme.
+
+## Dokunmatik (tablet ve telefon)
+
+Bu kontroller yalnızca parmakla dokunulan ekranlarda görünür. Televizyonda
+hiçbiri yoktur; kumandanın odak sırası ve düzeni değişmez.
+
+**Geri.** Detay, NAS gezgini, müzik gezgini, arama, ayarlar, kaynak ekleme ve
+müzik çalar ekranlarının üstünde "← Geri" çubuğu bulunur. NAS ve müzik
+gezginlerinde bir üst klasöre çıkar, en üstteyse ekrandan çıkar.
+
+**Oynatıcı.**
+
+| Jest | Etki |
+|---|---|
+| Tek dokunuş | Paneli açar / kapatır |
+| Çift dokunuş, sol üçte bir | 10 sn geri |
+| Çift dokunuş, sağ üçte bir | 10 sn ileri |
+| Çift dokunuş, orta | Oynat / duraklat |
+| Yatay kaydırma | Sarar (parmak kalkınca uygulanır) |
+| Sağ yarıda dikey kaydırma | Ses |
+| Sol yarıda dikey kaydırma | Parlaklık |
+
+Panelde ayrıca geri düğmesi, ses çubuğu ve sessiz düğmesi vardır. Müzik çalarda
+da ses çubuğu bulunur.
+
+**Fotoğraf.** Sola/sağa kaydırarak önceki/sonraki fotoğraf, dokununca panel;
+panelde önceki/sonraki okları ve geri düğmesi.
+
+**Boyutlar.** Televizyon için ayarlı değerler (gövde yazısı 9sp, düğme 44dp)
+tablette okunamayacak kadar küçüktü. Dokunmatik ekranlarda yazı büyür ve dokunma
+hedefleri en az 48dp olur. Bu ayrım kaynak niteleyicileriyle yapılır
+(`values-finger`, `values-w600dp-finger`).
 
 ## Mimari
 
@@ -145,8 +212,10 @@ player/
   PlayerEngine.kt    İki motoru birleştiren arayüz
   ExoEngine.kt       Media3
   VlcEngine.kt       libVLC
-  PlaybackActivity   Motor seçimi, geri düşüş, kanal menüleri, kumanda
+  PlaybackActivity   Motor seçimi, geri düşüş, kanal menüleri, kumanda, jestler
+  VolumeControl.kt   Ekrandaki ses çubuğu ve sessiz düğmesi
 ui/
+  TouchNav.kt        Dokunmatik ekranlara "Geri" çubuğu ekler
   profile/           "Kim izliyor?"
   MainActivity       Bölüm kutuları, kategori + içerik ızgarası
   detail/            Film/dizi detayı, sezon ve bölüm seçimi
@@ -159,7 +228,8 @@ ui/
 
 Görsel dil `design-ref/cinematic_pulse/DESIGN.md` dosyasındaki **Cinematic
 Pulse** sistemine göre: `#131313` zemin, `#ADC6FF` odak rengi, 16dp köşe
-yarıçapı, odakta 1.1 ölçek, 40dp/30dp overscan güvenli alan.
+yarıçapı, odakta 1.1 ölçek. Televizyonda 40dp/30dp overscan güvenli alan
+kullanılır; tablette kenar boşlukları daha dardır.
 
 ## Bilinen sınırlar ve bilinçli ödünleşimler
 
@@ -177,7 +247,11 @@ yarıçapı, odakta 1.1 ölçek, 40dp/30dp overscan güvenli alan.
 - **Varsayılan yerel ayar `Locale.ROOT`'a sabitleniyor** (`App.kt`). Türkçe'de
   "i" harfinin büyüğü "İ" olduğu için jcifs paylaşım adını `FİTNESS` diye
   gönderiyor ve sunucu bulamıyordu; aynı tuzak `.AVI` uzantısını `.avı` yapıyordu.
-- APK imzasız (debug). Kalıcı kullanım için release imzası üretilmeli.
+- **Yayın APK'ları proje sahibinin anahtarıyla imzalı.** Kendi derlemenizi
+  yaparsanız kendi anahtarınızı kullanın (bkz. *Yayın sürümü*); farklı imzalı
+  sürümler birbirinin üzerine kurulmaz.
+- Tablet jestleri ve boyutları farklı ekran boyutlarında yeterince denenmedi;
+  sorun görürseniz bildirin.
 
 ## Lisans
 
