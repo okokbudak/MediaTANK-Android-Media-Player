@@ -249,9 +249,6 @@ kullanılır; tablette kenar boşlukları daha dardır.
 - **Yayın APK'ları proje sahibinin anahtarıyla imzalı.** Kendi derlemenizi
   yaparsanız kendi anahtarınızı kullanın (bkz. *Yayın sürümü*); farklı imzalı
   sürümler birbirinin üzerine kurulmaz.
-- Tablet jestleri ve boyutları farklı ekran boyutlarında yeterince denenmedi;
-  sorun görürseniz bildirin.
-
 ## Lisans
 
 **Her hakkı saklıdır.** Kişisel bir proje; yayınlanmıyor, dağıtılmıyor ve
