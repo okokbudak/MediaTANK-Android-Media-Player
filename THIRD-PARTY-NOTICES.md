@@ -1,18 +1,30 @@
 # Üçüncü Taraf Bildirimleri
 
-MediaTANK'ın kendi kodu her hakkı saklı olarak tutuluyor (bkz. `LICENSE`).
-Uygulamanın bağlandığı kütüphaneler ise kendi lisanslarını korur; bu bildirim
-onları listeler.
+MediaTANK'ın kendi kodu **GNU GPL sürüm 3 ya da sonrası** (GPL-3.0-or-later)
+ile lisanslıdır (bkz. `LICENSE`). Uygulamanın bağlandığı kütüphaneler ise kendi
+lisanslarını korur; bu bildirim onları listeler.
 
-**Önemli:** Aşağıdaki LGPL yükümlülükleri **dağıtımda** doğar. Uygulama yalnız
-kendi cihazlarınızda derlenip kurulduğu sürece bir yükümlülük oluşmuyor.
-APK'yı başkasına verdiğiniz veya yayınladığınız anda geçerli hale gelirler.
+**Önemli:** Uygulamanın APK'ları GitHub Releases üzerinden herkese açık olarak
+dağıtılıyor. Bu yüzden aşağıdaki kütüphanelerin dağıtım yükümlülükleri
+**geçerlidir**.
 
 ## LGPL kapsamındaki kütüphaneler
 
-Dinamik olarak bağlanıyorlar ve değiştirilmemiş halleriyle kullanılıyorlar.
-Dağıtım durumunda LGPL, kullanıcının bu kütüphaneleri kendi sürümleriyle
-değiştirebilmesini ve lisans metninin birlikte verilmesini gerektirir.
+Değiştirilmemiş halleriyle kullanılıyorlar: libVLC yerel kütüphane (`.so`) olarak
+uygulamaya bağlanıyor, jcifs-ng bir Java kütüphanesi olarak paketleniyor.
+
+LGPL'nin gerektirdiklerinin nasıl karşılandığı:
+
+- **Lisans metni ve kaynak:** Bu depo, kütüphaneler hariç uygulamanın **tüm
+  kaynağını** GPL-3.0-or-later altında içeriyor. Kütüphanelerin kendi kaynakları
+  aşağıdaki bağlantılarda.
+- **Kütüphaneyi değiştirebilme:** Kullanıcı, bu depoyu klonlayıp
+  `app/build.gradle.kts` içindeki bağımlılık sürümlerini değiştirerek uygulamayı
+  kütüphanelerin kendi sürümüyle yeniden derleyebilir. Yayın APK'sı R8 ile
+  küçültülüyor; bunun için gereken yapılandırma `app/proguard-rules.pro`
+  dosyasında açıkça duruyor.
+- **Uyumluluk:** LGPL-2.1-or-later kütüphaneler, GPL-3.0-or-later ile
+  birleştirilebilir.
 
 | Kütüphane | Lisans | Kaynak |
 |---|---|---|
@@ -29,24 +41,24 @@ değiştirebilmesini ve lisans metninin birlikte verilmesini gerektirir.
 
 | Kütüphane | Kaynak |
 |---|---|
-| AndroidX (core, appcompat, lifecycle, recyclerview, exifinterface, leanback) | https://developer.android.com/jetpack |
+| AndroidX (core, appcompat, lifecycle, recyclerview, documentfile, exifinterface) | https://developer.android.com/jetpack |
 | AndroidX Media3 / ExoPlayer | https://github.com/androidx/media |
 | Kotlin ve kotlinx.coroutines | https://github.com/JetBrains/kotlin |
 | OkHttp | https://square.github.io/okhttp/ |
-| Retrofit | https://square.github.io/retrofit/ |
 | Gson | https://github.com/google/gson |
-| Glide | https://github.com/bumptech/glide |
-| SLF4J Android | https://www.slf4j.org/android/ |
 
-Apache 2.0 lisansının tam metni: https://www.apache.org/licenses/LICENSE-2.0
+Apache 2.0, GPL-3.0 ile uyumludur. Lisansın tam metni:
+https://www.apache.org/licenses/LICENSE-2.0
 
 ## Diğer
 
 | Kütüphane | Lisans | Kaynak |
 |---|---|---|
+| Glide | BSD; bir kısmı MIT ve Apache 2.0 | https://github.com/bumptech/glide |
+| SLF4J (API ve Android bağlayıcısı) | MIT | https://www.slf4j.org/ |
 | Bouncy Castle | MIT benzeri (Bouncy Castle Licence) | https://www.bouncycastle.org/licence.html |
 
-jcifs-ng bağımlılığı olarak geliyor.
+Bouncy Castle, jcifs-ng bağımlılığı olarak geliyor.
 
 ## Veri sağlayıcıları
 

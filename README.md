@@ -251,12 +251,28 @@ kullanılır; tablette kenar boşlukları daha dardır.
   sürümler birbirinin üzerine kurulmaz.
 ## Lisans
 
-**Her hakkı saklıdır.** Kişisel bir proje; yayınlanmıyor, dağıtılmıyor ve
-başkasının kullanımına açılmıyor. Ayrıntı için [LICENSE](LICENSE).
+MediaTANK özgür yazılımdır. Copyright © 2026 Orhan Kokbudak.
 
-Bağlanılan kütüphaneler kendi lisanslarını koruyor; özellikle **libVLC** ve
-**jcifs-ng** LGPL-2.1 kapsamında. Bu yükümlülükler yalnız dağıtım durumunda
-doğar — bkz. [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+Bu program özgür yazılımdır: Free Software Foundation tarafından yayımlanan
+**GNU Genel Kamu Lisansı'nın 3. sürümü ya da (tercihinize göre) daha sonraki
+herhangi bir sürümü** koşullarıyla yeniden dağıtabilir ve/veya değiştirebilirsiniz.
+
+Bu program yararlı olması umuduyla dağıtılmaktadır, ancak **HİÇBİR GARANTİ
+VERİLMEZ**; satılabilirlik ya da belirli bir amaca uygunluk garantisi dahil.
+Ayrıntılar için GNU Genel Kamu Lisansı'na bakın. Lisansın tam metni
+[LICENSE](LICENSE) dosyasındadır; ayrıca <https://www.gnu.org/licenses/gpl-3.0.html>.
+
+SPDX: `GPL-3.0-or-later`
+
+Pratikte bu şu demektir: kodu özgürce kullanabilir, inceleyebilir, değiştirebilir
+ve paylaşabilirsiniz; ancak değiştirilmiş sürümü dağıtırsanız onu da aynı
+lisansla, kaynak koduyla birlikte sunmanız gerekir.
+
+Bağlanılan kütüphaneler kendi lisanslarını korur; **libVLC** ve **jcifs-ng**
+LGPL-2.1 veya sonrası, AndroidX ve Media3 gibi çoğu bileşen Apache-2.0
+kapsamındadır ve hepsi GPL-3.0-or-later ile uyumludur. APK'lar herkese açık
+olarak dağıtıldığı için bu kütüphanelerin yükümlülükleri geçerlidir — bkz.
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 Film ve dizi bilgileri isteğe bağlı olarak TMDB'den geliyor:
 
